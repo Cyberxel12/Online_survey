@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Part II. ChatGPT Assistance in Academic Tasks</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="survey_db.js"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "secondary-fixed-dim": "#4edea3",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "background": "#f8f9ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary": "#006c49",
+                    "surface-variant": "#d3e4fe",
+                    "on-secondary-container": "#00714d",
+                    "surface-container-high": "#dce9ff",
+                    "inverse-surface": "#213145",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-fixed": "#2a1700",
+                    "on-surface": "#0b1c30",
+                    "tertiary-fixed": "#ffddb8",
+                    "surface-dim": "#cbdbf5",
+                    "primary": "#004ac6",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#996100",
+                    "outline-variant": "#c3c6d7",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "surface-tint": "#0053db",
+                    "error": "#ba1a1a",
+                    "tertiary": "#784b00",
+                    "outline": "#737686",
+                    "on-primary-container": "#eeefff",
+                    "primary-container": "#2563eb",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-secondary-fixed-variant": "#005236",
+                    "secondary-fixed": "#6ffbbe",
+                    "on-background": "#0b1c30",
+                    "surface-container": "#e5eeff",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed": "#00174b",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "on-tertiary-container": "#ffeedd",
+                    "primary-fixed": "#dbe1ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "secondary-container": "#6cf8bb",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#b4c5ff",
+                    "on-surface-variant": "#434655",
+                    "on-secondary-fixed": "#002113",
+                    "surface": "#f8f9ff",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "surface-container-low": "#eff4ff"
+                },
+                "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+                },
+                "spacing": {
+                    "base": "8px",
+                    "container-padding": "20px",
+                    "stack-sm": "12px",
+                    "gutter": "16px",
+                    "stack-lg": "40px",
+                    "stack-md": "24px"
+                },
+                "fontFamily": {
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "label-md": ["Inter"],
+                    "label-lg": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"]
+                },
+                "fontSize": {
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                }
+            },
+        },
+    }
+</script>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .progress-gradient {
+        background: linear-gradient(90deg, #004ac6 0%, #2563eb 100%);
+    }
+    body {
+        background-color: #f8f9ff;
+        -webkit-tap-highlight-color: transparent;
+        min-height: 100dvh;
+    }
+</style>
+</head>
+<body class="font-body-md text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top App Bar -->
+<header class="bg-surface dark:bg-on-surface border-b border-outline-variant flex justify-between items-center w-full px-container-padding h-16 sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-outline-variant">
+            <img class="w-full h-full object-cover" alt="AI Mascot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4bvPMZSZDy3vbjM9UZ6Gi816l9rIQV5tVUiZXlJ0qE5069MSNZ2bN9ubIpYNBbJuBLVbZuZ9slFJQa3HLK7i4tVfkjAoD7kMbOzQS5U_yxWbQ5YxMvwDrMoj0wvyEAYRuk5ZvNg6h0tPtbAGmx7dWs6Ued6GAAy-97NY7wg7jD5HN3LTq1222yXLfpF6s5yY92tCWe1lIYIfBHU9Yo-1hFbou1ssB8egIkKOZlLqfsMTCmTefx8oK"/>
+        </div>
+        <div class="flex flex-col">
+            <h1 class="text-on-surface font-label-lg text-label-lg font-bold">Impact of AI Tools</h1>
+            <span class="font-label-md text-label-md text-on-surface-variant">Grade 12 Academic Study</span>
+        </div>
+    </div>
+    <div class="flex items-center gap-2">
+        <span class="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full">Part II of III</span>
+    </div>
+    <!-- Top Progress Bar Anchor (50%) -->
+    <div class="absolute bottom-0 left-0 w-full h-1 bg-primary-fixed overflow-hidden">
+        <div class="h-full progress-gradient transition-all duration-1000 ease-out" style="width: 50%;"></div>
+    </div>
+</header>
+
+<main class="max-w-3xl mx-auto px-container-padding pb-32 pt-stack-md">
+    <!-- Section Header -->
+    <div class="mb-stack-md">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary mb-3">
+            <span class="material-symbols-outlined text-[18px]">psychology</span>
+            <span class="font-label-lg text-label-lg font-bold uppercase tracking-wider">PART II</span>
+        </div>
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-2 font-bold">
+            PART II. CHATGPT ASSISTANCE IN ACADEMIC TASKS
+        </h2>
+    </div>
+
+    <!-- DIRECTIONS & SCALE BANNER -->
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-5 shadow-sm mb-stack-md space-y-4">
+        <div class="flex items-center gap-2 text-primary">
+            <span class="material-symbols-outlined text-[22px]">info</span>
+            <h3 class="font-label-lg text-label-lg font-bold uppercase tracking-wider">DIRECTIONS:</h3>
+        </div>
+        <p class="font-body-md text-body-md text-on-surface leading-relaxed">
+            Read and analyze each statement carefully. Select the option that best represents your preferred answer.
+        </p>
+
+        <!-- Scale Display -->
+        <div class="pt-2 border-t border-outline-variant/40">
+            <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Scale:</p>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs font-semibold">
+                <div class="p-2 rounded-lg bg-[#6cf8bb]/30 text-secondary border border-secondary-fixed-dim text-center">
+                    <strong>5</strong> – Strongly Agree
+                </div>
+                <div class="p-2 rounded-lg bg-surface-container text-on-surface border border-outline-variant text-center">
+                    <strong>4</strong> – Agree
+                </div>
+                <div class="p-2 rounded-lg bg-tertiary-fixed/30 text-tertiary border border-tertiary-fixed-dim text-center">
+                    <strong>3</strong> – Neutral
+                </div>
+                <div class="p-2 rounded-lg bg-error-container/20 text-error border border-error-container text-center">
+                    <strong>2</strong> – Disagree
+                </div>
+                <div class="p-2 rounded-lg bg-error-container/40 text-error font-bold border border-error text-center">
+                    <strong>1</strong> – Strongly Disagree
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subtitle instruction -->
+    <div class="mb-6 px-1 flex items-center justify-between">
+        <div>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface">CHATGPT ASSISTANCE IN ACADEMIC TASKS</h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Please rate each statement using the scale of 5, 4, 3, 2, and 1.</p>
+        </div>
+        <span class="text-xs font-semibold text-outline" id="answered-counter">0 / 15 answered</span>
+    </div>
+
+    <!-- 15 Question Stream -->
+    <form id="perceptions-form" class="space-y-4">
+        <!-- Questions will be rendered by template -->
+        <div id="questions-container" class="space-y-4">
+            <!-- Dynamically populated or static cards below -->
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex items-center justify-between mt-stack-lg gap-gutter pt-6">
+            <button class="flex-1 py-4 rounded-full font-label-lg text-label-lg border border-outline-variant text-on-surface hover:bg-surface-container transition-all flex items-center justify-center gap-2" id="btn-prev-part" type="button">
+                <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                Previous Part
+            </button>
+            <button class="flex-1 py-4 rounded-full font-label-lg text-label-lg bg-primary text-on-primary hover:bg-on-primary-fixed-variant shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2" id="btn-submit" type="submit">
+                Continue to Part III
+                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+            </button>
+        </div>
+    </form>
+
+    <footer class="py-8 text-center text-on-surface-variant/60 text-xs font-semibold border-t border-outline-variant/20 mt-12">
+        Developed by Densio Cute AI, Student of ZDSPGC 2026
+    </footer>
+</main>
+
+<script>
+    const statements = [
+        "The explanation provided by ChatGPT was easy to understand.",
+        "ChatGPT’s responses clearly answered my questions.",
+        "The examples given by ChatGPT were helpful for my learning.",
+        "ChatGPT provided useful code snippets and samples when needed.",
+        "ChatGPT helps me summarize information from lessons or reading materials.",
+        "ChatGPT helps me improve my written schoolwork.",
+        "ChatGPT helps me save time when completing academic tasks.",
+        "ChatGPT helps me explain topics that I do not understand.",
+        "ChatGPT provides useful suggestions when I am doing school activities.",
+        "ChatGPT helps me feel more confident when completing academic tasks.",
+        "I find ChatGPT convenient to use for my academic activities.",
+        "I check the information provided by ChatGPT before using it in my schoolwork.",
+        "I believe ChatGPT is helpful when used responsibly for learning.",
+        "Using ChatGPT appropriately can improve the way I accomplish academic tasks.",
+        "Overall, ChatGPT provides meaningful assistance in completing my academic tasks."
+    ];
+
+    const container = document.getElementById('questions-container');
+
+    // Build the 15 question cards
+    statements.forEach((text, idx) => {
+        const qNum = idx + 1;
+        const padNum = String(qNum).padStart(2, '0');
+
+        const card = document.createElement('div');
+        card.className = "bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-sm transition-all hover:shadow-md question-card";
+        card.id = `card-q${qNum}`;
+
+        card.innerHTML = `
+            <div class="flex items-start gap-4 mb-stack-sm">
+                <span class="font-headline-sm text-headline-sm text-primary font-bold opacity-40 shrink-0">${padNum}</span>
+                <p class="font-body-md text-body-md font-semibold text-on-surface leading-snug pt-0.5">${text}</p>
+            </div>
+            <div class="grid grid-cols-5 gap-2 mt-4">
+                <!-- 5 (Strongly Agree) -->
+                <label class="flex flex-col items-center group cursor-pointer">
+                    <input class="sr-only peer" name="q${qNum}" type="radio" value="5" onchange="updateCounter()"/>
+                    <div class="w-full h-12 sm:h-14 rounded-lg border-2 border-transparent bg-[#6cf8bb]/15 flex flex-col items-center justify-center transition-all peer-checked:bg-[#6cf8bb] peer-checked:border-secondary peer-checked:shadow-inner group-hover:bg-[#6cf8bb]/25 relative">
+                        <div class="flex items-center gap-1">
+                            <span class="font-headline-sm text-headline-sm peer-checked:text-secondary font-bold">5</span>
+                            <span class="material-symbols-outlined text-[14px] text-secondary hidden peer-checked:inline font-bold">check</span>
+                        </div>
+                        <span class="text-[10px] font-bold uppercase text-secondary">SA</span>
+                    </div>
+                </label>
+                <!-- 4 (Agree) -->
+                <label class="flex flex-col items-center group cursor-pointer">
+                    <input class="sr-only peer" name="q${qNum}" type="radio" value="4" onchange="updateCounter()"/>
+                    <div class="w-full h-12 sm:h-14 rounded-lg border-2 border-transparent bg-surface-container-low flex flex-col items-center justify-center transition-all peer-checked:bg-surface-variant peer-checked:border-primary-container peer-checked:shadow-inner group-hover:bg-surface-container">
+                        <div class="flex items-center gap-1">
+                            <span class="font-headline-sm text-headline-sm font-bold">4</span>
+                            <span class="material-symbols-outlined text-[14px] text-primary hidden peer-checked:inline font-bold">check</span>
+                        </div>
+                        <span class="text-[10px] font-bold uppercase text-on-surface-variant">A</span>
+                    </div>
+                </label>
+                <!-- 3 (Neutral) -->
+                <label class="flex flex-col items-center group cursor-pointer">
+                    <input class="sr-only peer" name="q${qNum}" type="radio" value="3" onchange="updateCounter()"/>
+                    <div class="w-full h-12 sm:h-14 rounded-lg border-2 border-transparent bg-tertiary-fixed/15 flex flex-col items-center justify-center transition-all peer-checked:bg-tertiary-fixed peer-checked:border-tertiary peer-checked:shadow-inner group-hover:bg-tertiary-fixed/25">
+                        <div class="flex items-center gap-1">
+                            <span class="font-headline-sm text-headline-sm font-bold">3</span>
+                            <span class="material-symbols-outlined text-[14px] text-tertiary hidden peer-checked:inline font-bold">check</span>
+                        </div>
+                        <span class="text-[10px] font-bold uppercase text-tertiary">N</span>
+                    </div>
+                </label>
+                <!-- 2 (Disagree) -->
+                <label class="flex flex-col items-center group cursor-pointer">
+                    <input class="sr-only peer" name="q${qNum}" type="radio" value="2" onchange="updateCounter()"/>
+                    <div class="w-full h-12 sm:h-14 rounded-lg border-2 border-transparent bg-error-container/10 flex flex-col items-center justify-center transition-all peer-checked:bg-error-container/40 peer-checked:border-error peer-checked:shadow-inner group-hover:bg-error-container/20">
+                        <div class="flex items-center gap-1">
+                            <span class="font-headline-sm text-headline-sm text-error/80 font-bold">2</span>
+                            <span class="material-symbols-outlined text-[14px] text-error hidden peer-checked:inline font-bold">check</span>
+                        </div>
+                        <span class="text-[10px] font-bold uppercase text-error">D</span>
+                    </div>
+                </label>
+                <!-- 1 (Strongly Disagree) -->
+                <label class="flex flex-col items-center group cursor-pointer">
+                    <input class="sr-only peer" name="q${qNum}" type="radio" value="1" onchange="updateCounter()"/>
+                    <div class="w-full h-12 sm:h-14 rounded-lg border-2 border-transparent bg-error-container/15 flex flex-col items-center justify-center transition-all peer-checked:bg-error-container peer-checked:border-error peer-checked:shadow-inner group-hover:bg-error-container/30">
+                        <div class="flex items-center gap-1">
+                            <span class="font-headline-sm text-headline-sm text-error font-bold">1</span>
+                            <span class="material-symbols-outlined text-[14px] text-error hidden peer-checked:inline font-bold">check</span>
+                        </div>
+                        <span class="text-[10px] font-bold uppercase text-error">SD</span>
+                    </div>
+                </label>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+
+    function updateCounter() {
+        let count = 0;
+        for (let q = 1; q <= 15; q++) {
+            if (document.querySelector(`input[name="q${q}"]:checked`)) count++;
+        }
+        const counterEl = document.getElementById('answered-counter');
+        if (counterEl) {
+            counterEl.textContent = `${count} / 15 answered`;
+            if (count === 15) {
+                counterEl.className = "text-xs font-bold text-secondary bg-secondary/10 px-2.5 py-1 rounded-full";
+            } else {
+                counterEl.className = "text-xs font-semibold text-outline";
+            }
+        }
+    }
+
+    // Pre-fill Likert from draft
+    const draft = SurveyDB.getDraft();
+    if (draft && draft.perceptions) {
+        for (let q = 1; q <= 15; q++) {
+            if (draft.perceptions[`q${q}`]) {
+                const radio = document.querySelector(`input[name="q${q}"][value="${draft.perceptions['q' + q]}"]`);
+                if (radio) radio.checked = true;
+            }
+        }
+        updateCounter();
+    }
+
+    // Previous button -> goes to profile.html
+    document.getElementById('btn-prev-part').addEventListener('click', () => {
+        saveCurrentPerceptions();
+        window.location.href = 'profile.html';
+    });
+
+    function saveCurrentPerceptions() {
+        const perceptions = {};
+        for (let q = 1; q <= 15; q++) {
+            const radio = document.querySelector(`input[name="q${q}"]:checked`);
+            if (radio) perceptions[`q${q}`] = parseInt(radio.value);
+        }
+        SurveyDB.saveDraft({ perceptions });
+    }
+
+    // Submit / Continue button -> validates all 15, goes to usage.html (Part III)
+    document.getElementById('perceptions-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const perceptions = {};
+        let firstUnanswered = null;
+
+        for (let q = 1; q <= 15; q++) {
+            const radio = document.querySelector(`input[name="q${q}"]:checked`);
+            if (!radio) {
+                if (!firstUnanswered) firstUnanswered = q;
+            } else {
+                perceptions[`q${q}`] = parseInt(radio.value);
+            }
+        }
+
+        if (firstUnanswered) {
+            alert(`Please rate statement #${firstUnanswered} before continuing.`);
+            const targetCard = document.getElementById(`card-q${firstUnanswered}`);
+            if (targetCard) {
+                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetCard.classList.add('ring-2', 'ring-primary');
+                setTimeout(() => targetCard.classList.remove('ring-2', 'ring-primary'), 1500);
+            }
+            return;
+        }
+
+        SurveyDB.saveDraft({ perceptions });
+        window.location.href = 'usage.html';
+    });
+</script>
+</body>
+</html>

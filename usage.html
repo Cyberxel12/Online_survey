@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Part III. Students’ Use of ChatGPT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="survey_db.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "secondary-fixed-dim": "#4edea3",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "background": "#f8f9ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary": "#006c49",
+                    "surface-variant": "#d3e4fe",
+                    "on-secondary-container": "#00714d",
+                    "surface-container-high": "#dce9ff",
+                    "inverse-surface": "#213145",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-fixed": "#2a1700",
+                    "on-surface": "#0b1c30",
+                    "tertiary-fixed": "#ffddb8",
+                    "surface-dim": "#cbdbf5",
+                    "primary": "#004ac6",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#996100",
+                    "outline-variant": "#c3c6d7",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "surface-tint": "#0053db",
+                    "error": "#ba1a1a",
+                    "tertiary": "#784b00",
+                    "outline": "#737686",
+                    "on-primary-container": "#eeefff",
+                    "primary-container": "#2563eb",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-secondary-fixed-variant": "#005236",
+                    "secondary-fixed": "#6ffbbe",
+                    "on-background": "#0b1c30",
+                    "surface-container": "#e5eeff",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed": "#00174b",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "on-tertiary-container": "#ffeedd",
+                    "primary-fixed": "#dbe1ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "secondary-container": "#6cf8bb",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#b4c5ff",
+                    "on-surface-variant": "#434655",
+                    "on-secondary-fixed": "#002113",
+                    "surface": "#f8f9ff",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "surface-container-low": "#eff4ff"
+                },
+                "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+                },
+                "spacing": {
+                    "base": "8px",
+                    "container-padding": "20px",
+                    "stack-sm": "12px",
+                    "gutter": "16px",
+                    "stack-lg": "40px",
+                    "stack-md": "24px"
+                },
+                "fontFamily": {
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "label-md": ["Inter"],
+                    "label-lg": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"]
+                },
+                "fontSize": {
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                }
+            },
+        },
+    }
+</script>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .survey-card-shadow {
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.04);
+    }
+    .progress-gradient {
+        background: linear-gradient(90deg, #0053db 0%, #2563eb 100%);
+    }
+    body {
+        min-height: 100dvh;
+        background-color: #f8f9ff;
+    }
+</style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- Top Navigation Header -->
+<header class="fixed top-0 left-0 w-full bg-surface z-50 border-b border-outline-variant h-16 flex items-center justify-between px-container-padding transition-all">
+    <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border-2 border-white shadow-sm">
+            <img class="w-full h-full object-cover" alt="Mascot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjvw2nLKieKWAzqrqihRWnolAnw7c-_c2CheIKoVAaruFhwyrFfKYC3HLO3FiDn3vXq3HT4fALehzYOUgUIZGtnZKJHtwIr1IeJjNR9hpWbLdRv7OnRYNUDPqGwTG4KHHCbs3sJpwj8koSBNFSG3Ry33M6BTx2bo-1Lu_EVyGqHmUF2reeXzvqDTT0ebcPWXrNtwvYKos40jceItV4b89og-oj7gHbRd_nF3dn_wqgjK8oeAPY1S5V"/>
+        </div>
+        <div class="flex flex-col">
+            <span class="text-on-surface font-headline-sm text-headline-sm leading-tight font-bold">Impact of AI Tools</span>
+            <span class="text-on-surface-variant font-label-md text-label-md">Grade 12 Academic Study</span>
+        </div>
+    </div>
+    <div class="flex items-center gap-2">
+        <span class="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full">Part III of III</span>
+    </div>
+    <!-- Top Progress Bar (75%) -->
+    <div class="absolute bottom-0 left-0 w-full h-1 bg-surface-container">
+        <div class="h-full progress-gradient transition-all duration-500 ease-out" style="width: 75%;"></div>
+    </div>
+</header>
+
+<main class="pt-24 pb-28 px-container-padding max-w-2xl mx-auto space-y-stack-md">
+    <!-- Section Header -->
+    <div class="space-y-2 mb-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container/50 text-on-secondary-container font-label-lg text-label-lg font-bold">
+            <span class="material-symbols-outlined text-[18px]">smart_toy</span>
+            PART III
+        </div>
+        <h2 class="font-headline-md text-headline-md text-on-surface font-bold">
+            PART III. STUDENTS’ USE OF CHATGPT
+        </h2>
+        <p class="text-on-surface-variant font-body-sm leading-relaxed">
+            Please answer the questions below regarding your experience and routine when using ChatGPT for schoolwork.
+        </p>
+    </div>
+
+    <!-- Question 1: Frequency -->
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 survey-card-shadow space-y-4">
+        <div class="space-y-1">
+            <span class="text-primary font-label-lg uppercase tracking-wider font-bold">Question 1</span>
+            <p class="font-headline-sm text-headline-sm text-on-surface">1. How often do you use ChatGPT for academic tasks?</p>
+            <p class="text-on-surface-variant font-body-sm italic">Select one frequency.</p>
+        </div>
+        <div class="space-y-2.5">
+            <label class="flex items-center gap-3 p-3.5 border border-outline-variant rounded-xl cursor-pointer hover:border-primary/50 transition-all has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
+                <input class="w-5 h-5 text-primary border-outline focus:ring-primary" name="frequency" type="radio" value="Never"/>
+                <span class="font-body-md text-on-surface font-medium">Never</span>
+            </label>
+            <label class="flex items-center gap-3 p-3.5 border border-outline-variant rounded-xl cursor-pointer hover:border-primary/50 transition-all has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
+                <input class="w-5 h-5 text-primary border-outline focus:ring-primary" name="frequency" type="radio" value="Rarely"/>
+                <span class="font-body-md text-on-surface font-medium">Rarely</span>
+            </label>
+            <label class="flex items-center gap-3 p-3.5 border border-outline-variant rounded-xl cursor-pointer hover:border-primary/50 transition-all has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
+                <input class="w-5 h-5 text-primary border-outline focus:ring-primary" name="frequency" type="radio" value="Sometimes"/>
+                <span class="font-body-md text-on-surface font-medium">Sometimes</span>
+            </label>
+            <label class="flex items-center gap-3 p-3.5 border border-outline-variant rounded-xl cursor-pointer hover:border-primary/50 transition-all has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
+                <input class="w-5 h-5 text-primary border-outline focus:ring-primary" name="frequency" type="radio" value="Often"/>
+                <span class="font-body-md text-on-surface font-medium">Often</span>
+            </label>
+            <label class="flex items-center gap-3 p-3.5 border border-outline-variant rounded-xl cursor-pointer hover:border-primary/50 transition-all has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
+                <input class="w-5 h-5 text-primary border-outline focus:ring-primary" name="frequency" type="radio" value="Always"/>
+                <span class="font-body-md text-on-surface font-medium">Always</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- Question 2: Usages -->
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 survey-card-shadow space-y-4">
+        <div class="space-y-1">
+            <span class="text-primary font-label-lg uppercase tracking-wider font-bold">Question 2</span>
+            <p class="font-headline-sm text-headline-sm text-on-surface">2. What do you usually use ChatGPT for?</p>
+            <p class="text-on-surface-variant font-body-sm italic">(Check all that apply.)</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label class="flex items-center gap-3 p-3.5 border border-outline-variant rounded-xl cursor-pointer hover:border-primary/50 transition-all has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
+                <input class="w-5 h-5 rounded text-primary border-outline focus:ring-primary" name="usage" type="checkbox" value="Answering assignments"/>
+                <span class="font-body-md text-on-surface">Answering assignments</span>
+            </label>
+            <label class="flex items-center gap-3 p-3.5 border border-outline-variant rounded-xl cursor-pointer hover:border-primary/50 transition-all has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
+                <input class="w-5 h-5 rounded text-primary border-outline focus:ring-primary" name="usage" type="checkbox" value="Generating ideas"/>
+                <span class="font-body-md text-on-surface">Generating ideas</span>
+            </label>
+            <label class="flex items-center gap-3 p-3.5 border border-outline-variant rounded-xl cursor-pointer hover:border-primary/50 transition-all has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
+                <input class="w-5 h-5 rounded text-primary border-outline focus:ring-primary" name="usage" type="checkbox" value="Summarizing information"/>
+                <span class="font-body-md text-on-surface">Summarizing information</span>
+            </label>
+            <label class="flex items-center gap-3 p-3.5 border border-outline-variant rounded-xl cursor-pointer hover:border-primary/50 transition-all has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
+                <input class="w-5 h-5 rounded text-primary border-outline focus:ring-primary" name="usage" type="checkbox" value="Explaining lessons"/>
+                <span class="font-body-md text-on-surface">Explaining lessons</span>
+            </label>
+            <label class="flex items-center gap-3 p-3.5 border border-outline-variant rounded-xl cursor-pointer hover:border-primary/50 transition-all has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
+                <input class="w-5 h-5 rounded text-primary border-outline focus:ring-primary" name="usage" type="checkbox" value="Writing activities"/>
+                <span class="font-body-md text-on-surface">Writing activities</span>
+            </label>
+            <label class="flex items-center gap-3 p-3.5 border border-outline-variant rounded-xl cursor-pointer hover:border-primary/50 transition-all has-[:checked]:bg-primary/5 has-[:checked]:border-primary">
+                <input class="w-5 h-5 rounded text-primary border-outline focus:ring-primary" name="usage" type="checkbox" value="Reviewing lessons"/>
+                <span class="font-body-md text-on-surface">Reviewing lessons</span>
+            </label>
+            <label class="flex items-center gap-3 p-3.5 border border-outline-variant rounded-xl cursor-pointer hover:border-primary/50 transition-all has-[:checked]:bg-primary/5 has-[:checked]:border-primary sm:col-span-2">
+                <input class="w-5 h-5 rounded text-primary border-outline focus:ring-primary" name="usage" type="checkbox" value="Researching information"/>
+                <span class="font-body-md text-on-surface">Researching information</span>
+            </label>
+        </div>
+        <!-- Other input -->
+        <div class="pt-2">
+            <label class="block font-label-md text-on-surface font-semibold mb-1" for="other-usage-input">Other: _________________________________</label>
+            <input class="w-full bg-surface-container-low border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg font-body-md px-4 py-2.5 transition-all outline-none" id="other-usage-input" placeholder="Specify other purpose..." type="text"/>
+        </div>
+    </div>
+
+    <!-- Question 3: Which academic task do you use ChatGPT for most often? -->
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 survey-card-shadow space-y-4">
+        <div class="space-y-1">
+            <span class="text-primary font-label-lg uppercase tracking-wider font-bold">Question 3</span>
+            <p class="font-headline-sm text-headline-sm text-on-surface">3. Which academic task do you use ChatGPT for most often?</p>
+            <p class="text-on-surface-variant font-body-sm italic">Write your answer in the box below.</p>
+        </div>
+        <div>
+            <textarea class="w-full bg-surface border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl font-body-md p-4 transition-all outline-none text-on-surface" id="most-used-task" rows="3" placeholder="Write the specific academic task here (e.g., Answering assignments in English, explaining lessons, writing essays...)"></textarea>
+        </div>
+    </div>
+
+    <!-- Question 4: Time spent -->
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 survey-card-shadow space-y-4">
+        <div class="space-y-1">
+            <span class="text-primary font-label-lg uppercase tracking-wider font-bold">Question 4</span>
+            <p class="font-headline-sm text-headline-sm text-on-surface">4. Approximately how much time do you spend using ChatGPT for academic tasks each day?</p>
+            <p class="text-on-surface-variant font-body-sm italic">Select one option.</p>
+        </div>
+        <div class="space-y-2.5">
+            <label class="flex items-center gap-4 p-4 rounded-xl bg-surface hover:bg-surface-container transition-all cursor-pointer border border-outline-variant has-[:checked]:border-secondary has-[:checked]:bg-secondary/5 has-[:checked]:shadow-sm">
+                <input class="w-5 h-5 text-secondary border-outline focus:ring-secondary" name="time" type="radio" value="Less than 30 minutes"/>
+                <span class="font-body-md text-on-surface font-medium">Less than 30 minutes</span>
+            </label>
+            <label class="flex items-center gap-4 p-4 rounded-xl bg-surface hover:bg-surface-container transition-all cursor-pointer border border-outline-variant has-[:checked]:border-secondary has-[:checked]:bg-secondary/5 has-[:checked]:shadow-sm">
+                <input class="w-5 h-5 text-secondary border-outline focus:ring-secondary" name="time" type="radio" value="30 minutes to 1 hour"/>
+                <span class="font-body-md text-on-surface font-medium">30 minutes to 1 hour</span>
+            </label>
+            <label class="flex items-center gap-4 p-4 rounded-xl bg-surface hover:bg-surface-container transition-all cursor-pointer border border-outline-variant has-[:checked]:border-secondary has-[:checked]:bg-secondary/5 has-[:checked]:shadow-sm">
+                <input class="w-5 h-5 text-secondary border-outline focus:ring-secondary" name="time" type="radio" value="1–2 hours"/>
+                <span class="font-body-md text-on-surface font-medium">1–2 hours</span>
+            </label>
+            <label class="flex items-center gap-4 p-4 rounded-xl bg-surface hover:bg-surface-container transition-all cursor-pointer border border-outline-variant has-[:checked]:border-secondary has-[:checked]:bg-secondary/5 has-[:checked]:shadow-sm">
+                <input class="w-5 h-5 text-secondary border-outline focus:ring-secondary" name="time" type="radio" value="More than 2 hours"/>
+                <span class="font-body-md text-on-surface font-medium">More than 2 hours</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- Action Area -->
+    <div class="flex gap-4 pt-4">
+        <button class="flex-1 h-12 flex items-center justify-center rounded-full bg-surface-container border border-outline-variant text-on-surface font-label-lg hover:bg-surface-dim transition-all" id="btn-previous" type="button">
+            <span class="material-symbols-outlined text-[18px] mr-1">arrow_back</span>
+            Previous Part
+        </button>
+        <button class="flex-[2] h-12 flex items-center justify-center rounded-full bg-primary text-white font-label-lg shadow-lg shadow-primary/20 hover:bg-on-primary-fixed-variant active:scale-95 transition-all" id="btn-continue" type="button">
+            Continue to Review
+            <span class="material-symbols-outlined text-[18px] ml-1">arrow_forward</span>
+        </button>
+    </div>
+
+    <footer class="py-8 text-center text-on-surface-variant/60 text-xs font-semibold border-t border-outline-variant/20 mt-8">
+        Developed by Densio Cute AI, Student of ZDSPGC 2026
+    </footer>
+</main>
+
+<script>
+    // Pre-fill from draft
+    const draft = SurveyDB.getDraft();
+    if (draft) {
+        // Q1 frequency
+        if (draft.frequency) {
+            const freqRad = document.querySelector(`input[name="frequency"][value="${draft.frequency}"]`);
+            if (freqRad) freqRad.checked = true;
+        }
+
+        // Q2 usages
+        if (draft.usages && draft.usages.length) {
+            draft.usages.forEach(val => {
+                const cb = document.querySelector(`input[name="usage"][value="${val}"]`);
+                if (cb) cb.checked = true;
+            });
+        }
+        if (draft.otherUsage) {
+            document.getElementById('other-usage-input').value = draft.otherUsage;
+        }
+
+        // Q3 task
+        if (draft.mostUsedTask) {
+            document.getElementById('most-used-task').value = draft.mostUsedTask;
+        }
+
+        // Q4 time
+        if (draft.timeSpent) {
+            const timeRad = document.querySelector(`input[name="time"][value="${draft.timeSpent}"]`);
+            if (timeRad) timeRad.checked = true;
+        }
+    }
+
+    // Navigation Back -> perceptions.html (Part II)
+    document.getElementById('btn-previous').addEventListener('click', () => {
+        saveCurrentDraft();
+        window.location.href = 'perceptions.html';
+    });
+
+    function saveCurrentDraft() {
+        const freqEl = document.querySelector('input[name="frequency"]:checked');
+        const usages = Array.from(document.querySelectorAll('input[name="usage"]:checked')).map(cb => cb.value);
+        const otherUsage = document.getElementById('other-usage-input').value.trim();
+        const mostUsedTask = document.getElementById('most-used-task').value.trim();
+        const timeEl = document.querySelector('input[name="time"]:checked');
+
+        SurveyDB.saveDraft({
+            frequency: freqEl ? freqEl.value : '',
+            usages: usages,
+            otherUsage: otherUsage,
+            mostUsedTask: mostUsedTask,
+            timeSpent: timeEl ? timeEl.value : '',
+            toolSelect: 'ChatGPT'
+        });
+    }
+
+    // Navigation Next -> review.html
+    document.getElementById('btn-continue').addEventListener('click', () => {
+        const freqEl = document.querySelector('input[name="frequency"]:checked');
+        if (!freqEl) {
+            alert('Please answer Question 1: How often do you use ChatGPT for academic tasks?');
+            return;
+        }
+
+        const usages = Array.from(document.querySelectorAll('input[name="usage"]:checked')).map(cb => cb.value);
+        const otherUsage = document.getElementById('other-usage-input').value.trim();
+
+        if (usages.length === 0 && !otherUsage) {
+            alert('Please select at least one option in Question 2 (What do you usually use ChatGPT for?).');
+            return;
+        }
+
+        const mostUsedTask = document.getElementById('most-used-task').value.trim();
+        if (!mostUsedTask) {
+            alert('Please answer Question 3: Which academic task do you use ChatGPT for most often?');
+            document.getElementById('most-used-task').focus();
+            return;
+        }
+
+        const timeEl = document.querySelector('input[name="time"]:checked');
+        if (!timeEl) {
+            alert('Please answer Question 4: Approximately how much time do you spend using ChatGPT for academic tasks each day?');
+            return;
+        }
+
+        SurveyDB.saveDraft({
+            frequency: freqEl.value,
+            usages: usages,
+            otherUsage: otherUsage,
+            mostUsedTask: mostUsedTask,
+            timeSpent: timeEl.value,
+            toolSelect: 'ChatGPT'
+        });
+
+        window.location.href = 'review.html';
+    });
+</script>
+</body>
+</html>

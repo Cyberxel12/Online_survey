@@ -1,0 +1,357 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="survey_db.js"></script><script id="tailwind-config">try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#4edea3",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary": "#006c49",
+                        "surface-variant": "#d3e4fe",
+                        "on-secondary-container": "#00714d",
+                        "surface-container-high": "#dce9ff",
+                        "inverse-surface": "#213145",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-fixed": "#2a1700",
+                        "on-surface": "#0b1c30",
+                        "tertiary-fixed": "#ffddb8",
+                        "surface-dim": "#cbdbf5",
+                        "primary": "#004ac6",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#996100",
+                        "outline-variant": "#c3c6d7",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-tint": "#0053db",
+                        "error": "#ba1a1a",
+                        "tertiary": "#784b00",
+                        "outline": "#737686",
+                        "on-primary-container": "#eeefff",
+                        "primary-container": "#2563eb",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-background": "#0b1c30",
+                        "surface-container": "#e5eeff",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#00174b",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "on-tertiary-container": "#ffeedd",
+                        "primary-fixed": "#dbe1ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-container": "#6cf8bb",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#b4c5ff",
+                        "on-surface-variant": "#434655",
+                        "on-secondary-fixed": "#002113",
+                        "surface": "#f8f9ff",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "surface-container-low": "#eff4ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "container-padding": "20px",
+                        "stack-sm": "12px",
+                        "gutter": "16px",
+                        "stack-lg": "40px",
+                        "stack-md": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    }catch(_e){}</script><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+  body {
+    background-color: #f8f9ff;
+    color: #0b1c30;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.8; /* Added more space for every line of sentence/words */
+  }
+  .sex-card { border-width: 2px; transition: all 0.2s; }
+  .sex-card.is-selected { border-color: #004ac6 !important; background-color: #eff4ff !important; }
+  .sex-card.is-selected .sex-label { color: #004ac6 !important; font-weight: 600; }
+  .sex-card.is-selected .radio-dot { border-color: #004ac6; background-color: #004ac6; box-shadow: inset 0 0 0 3px #fff; }
+  .strand-chip { border-width: 2px; transition: all 0.2s; }
+  .strand-chip.is-selected { background-color: #004ac6 !important; color: #fff !important; border-color: #004ac6 !important; font-weight: 600; }
+  input::placeholder { color: #5c5f73; opacity: 1; }
+  .glass-card { background: #ffffff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); }
+  .space-y-custom > * + * {
+    margin-top: 2rem !important; /* Spacing between main sections */
+  }
+</style>
+</head><body class="min-h-screen flex flex-col">
+<!-- Top AppBar (from Shared Components JSON) -->
+<header class="bg-surface dark:bg-on-surface border-b border-outline-variant dark:border-outline flex justify-between items-center w-full px-container-padding h-16 sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A friendly, high-tech robot mascot with glowing blue eyes and a sleek white ceramic finish, presented as a 3D character design. The robot is smiling and waving, set against a soft, scholarly blue background. The style is clean, modern, and educational, similar to high-quality Pixar-style character renders." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0dO8LiO05oUHQymvWJimM0Jlizyj1b_JVr8PJ2D_qyoRy0IYfeyPecI7d4X0nbCz5NcG9wUgEr8-0c1bCDyMacbUoXovtk7IUphQobFXpXPfFmZ2nPYZJhOZnudg6PAQDD8JHzwSsZv6vwVoLk43jqjEwfD5uynd0o_fYeAEThrfiyQK_HpW6xRxOUPWWyXX7VqZTNdDgqhVmZopnvJ9326Orb63N448rdxjiSa7-dw-fyppRxYrD">
+</div>
+<h1 class="text-label-lg font-label-lg font-bold text-on-surface dark:text-inverse-on-surface">Impact of AI Tools</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low dark:hover:bg-inverse-surface transition-all duration-300 ease-in-out">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-original-icon="more_vert">circle</span>
+</button>
+<!-- Progress Bar (Themed) -->
+<div class="absolute bottom-0 left-0 w-full h-1 bg-[#DBEAFE]">
+<div class="h-full bg-primary animate-progress" style="width: 10%"></div>
+</div>
+</header>
+<main class="flex-1 max-w-2xl mx-auto w-full px-container-padding py-stack-md pb-32">
+<!-- Welcome Section -->
+<section class="mb-stack-md space-y-3">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-container text-primary mb-2">
+<span class="material-symbols-outlined text-[20px]">person</span>
+<span class="text-label-lg font-bold">Part I. Respondent Information</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2" style="margin-bottom: 0.75rem;">Respondent's Profile</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed" style="margin-bottom: 1.5rem;">
+    Please provide your details to begin the survey. All your responses are kept strictly confidential.
+</p>
+</section>
+<form class="space-y-custom">
+<!-- Bento Grid Section: Personal Details -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Full Name Card -->
+<div class="glass-card p-container-padding rounded-xl col-span-full space-y-2">
+<div class="flex items-center justify-between">
+<label class="block font-label-lg text-label-lg text-on-surface font-bold mb-1" for="full-name">Full Name <span class="font-normal text-on-surface-variant text-sm">(Optional)</span></label>
+<span class="text-xs text-on-surface-variant">Leave blank to submit anonymously</span>
+</div>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none font-body-md text-on-surface" id="full-name" placeholder="e.g. Densio Cutekayo (or leave blank)" type="text">
+</div>
+<!-- Age Card -->
+<div class="glass-card p-container-padding rounded-xl space-y-2">
+<label class="block font-label-lg text-label-lg text-on-surface font-bold mb-1" for="age">Age</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none font-body-md text-on-surface" id="age" placeholder="17" type="number">
+</div>
+</div>
+<!-- Sex Selection (Multi-Choice Cards) -->
+<div class="glass-card p-container-padding rounded-xl space-y-4">
+<p class="font-label-lg text-label-lg text-on-surface font-bold mb-2">Sex</p>
+<div class="space-y-stack-sm">
+<label class="sex-card flex items-center justify-between p-4 rounded-xl border-2 border-outline-variant bg-surface cursor-pointer hover:border-primary/40 hover:bg-surface-container-low" onclick="selectSex(this,'male')">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[22px] text-on-surface-variant">man</span>
+<span class="sex-label font-body-md text-body-md text-on-surface">Male</span>
+</div>
+<div class="radio-dot w-5 h-5 rounded-full border-2 border-outline-variant flex-shrink-0 transition-all"></div>
+<input class="sr-only" name="sex" type="radio" value="male">
+</label>
+<label class="sex-card flex items-center justify-between p-4 rounded-xl border-2 border-outline-variant bg-surface cursor-pointer hover:border-primary/40 hover:bg-surface-container-low" onclick="selectSex(this,'female')">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[22px] text-on-surface-variant">woman</span>
+<span class="sex-label font-body-md text-body-md text-on-surface">Female</span>
+</div>
+<div class="radio-dot w-5 h-5 rounded-full border-2 border-outline-variant flex-shrink-0 transition-all"></div>
+<input class="sr-only" name="sex" type="radio" value="female">
+</label>
+<label class="sex-card flex items-center justify-between p-4 rounded-xl border-2 border-outline-variant bg-surface cursor-pointer hover:border-primary/40 hover:bg-surface-container-low" onclick="selectSex(this,'prefer_not_to_say')">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[22px] text-on-surface-variant">help_outline</span>
+<span class="sex-label font-body-md text-body-md text-on-surface">Prefer not to say</span>
+</div>
+<div class="radio-dot w-5 h-5 rounded-full border-2 border-outline-variant flex-shrink-0 transition-all"></div>
+<input class="sr-only" name="sex" type="radio" value="prefer_not_to_say">
+</label>
+</div>
+</div>
+<!-- Strand Selection (Chips Style) -->
+<div class="glass-card p-container-padding rounded-xl space-y-4">
+<p class="font-label-lg text-label-lg text-on-surface font-bold mb-2">Strand <span class="font-normal text-on-surface-variant">(Select one)</span></p>
+<div class="flex flex-wrap gap-2" id="strand-chips">
+<button type="button" class="strand-chip px-5 py-2 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-label-md text-label-md cursor-pointer hover:border-primary/50 hover:bg-surface-container-low" data-strand="STEM" onclick="selectStrand(this)">STEM<input class="sr-only" name="strand" type="radio" value="STEM"></button>
+<button type="button" class="strand-chip px-5 py-2 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-label-md text-label-md cursor-pointer hover:border-primary/50 hover:bg-surface-container-low" data-strand="HUMSS" onclick="selectStrand(this)">HUMSS<input class="sr-only" name="strand" type="radio" value="HUMSS"></button>
+<button type="button" class="strand-chip px-5 py-2 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-label-md text-label-md cursor-pointer hover:border-primary/50 hover:bg-surface-container-low" data-strand="ABM" onclick="selectStrand(this)">ABM<input class="sr-only" name="strand" type="radio" value="ABM"></button>
+<button type="button" class="strand-chip px-5 py-2 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-label-md text-label-md cursor-pointer hover:border-primary/50 hover:bg-surface-container-low" data-strand="GAS" onclick="selectStrand(this)">GAS<input class="sr-only" name="strand" type="radio" value="GAS"></button>
+<button type="button" class="strand-chip px-5 py-2 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-label-md text-label-md cursor-pointer hover:border-primary/50 hover:bg-surface-container-low" data-strand="TVL" onclick="selectStrand(this)">TVL<input class="sr-only" name="strand" type="radio" value="TVL"></button>
+<button type="button" class="strand-chip px-5 py-2 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-label-md text-label-md cursor-pointer hover:border-primary/50 hover:bg-surface-container-low" data-strand="ArtsAndDesign" onclick="selectStrand(this)">Arts and Design<input class="sr-only" name="strand" type="radio" value="ArtsAndDesign"></button>
+<button type="button" class="strand-chip px-5 py-2 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-label-md text-label-md cursor-pointer hover:border-primary/50 hover:bg-surface-container-low" data-strand="Sports" onclick="selectStrand(this)">Sports<input class="sr-only" name="strand" type="radio" value="Sports"></button>
+<button type="button" class="strand-chip px-5 py-2 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-label-md text-label-md cursor-pointer hover:border-primary/50 hover:bg-surface-container-low" data-strand="HE" onclick="selectStrand(this)">HE<input class="sr-only" name="strand" type="radio" value="HE"></button>
+<button type="button" class="strand-chip px-5 py-2 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-label-md text-label-md cursor-pointer hover:border-primary/50 hover:bg-surface-container-low" data-strand="CSS" onclick="selectStrand(this)">CSS<input class="sr-only" name="strand" type="radio" value="CSS"></button>
+<button type="button" class="strand-chip px-5 py-2 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-label-md text-label-md cursor-pointer hover:border-primary/50 hover:bg-surface-container-low" data-strand="SMAW" onclick="selectStrand(this)">SMAW<input class="sr-only" name="strand" type="radio" value="SMAW"></button>
+<button type="button" class="strand-chip px-5 py-2 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-label-md text-label-md cursor-pointer hover:border-primary/50 hover:bg-surface-container-low" data-strand="Other" onclick="selectStrand(this)">Other / Specify<input class="sr-only" name="strand" type="radio" value="Other"></button>
+</div>
+<!-- Custom Strand Specification Input -->
+<div id="other-strand-container" class="mt-4 hidden space-y-2">
+  <label class="block font-label-lg text-label-lg text-on-surface font-bold mb-1" for="other-strand">Specify your Strand</label>
+  <input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none font-body-md text-on-surface" id="other-strand" placeholder="Write your strand here..." type="text">
+</div>
+</div>
+<!-- Section Input -->
+<div class="glass-card p-container-padding rounded-xl space-y-2">
+<label class="block font-label-lg text-label-lg text-on-surface font-bold mb-1" for="section">Section</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none font-body-md text-on-surface" id="section" placeholder="e.g. A or B" type="text">
+</div>
+<!-- Navigation Buttons -->
+<div class="flex items-center justify-between pt-stack-md gap-4" style="margin-top: 2rem;">
+<button id="btn-back" class="px-8 py-4 rounded-full border-2 border-[#737686] font-label-lg text-[15px] font-bold hover:bg-surface-container transition-all flex items-center gap-2 cursor-pointer" type="button" style="color: #0b1c30; background-color: #ffffff;">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+Back
+</button>
+<button id="btn-next" class="px-12 py-4 rounded-full bg-primary font-label-lg text-[15px] font-bold shadow-xl shadow-primary/30 hover:scale-[1.03] active:scale-95 transition-all flex items-center gap-2 cursor-pointer" type="submit" style="color: #ffffff; background-color: #004ac6;">
+Next
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</form>
+<footer class="py-8 text-center text-on-surface-variant/60 text-xs font-semibold border-t border-outline-variant/20 mt-8">
+    Developed by Densio Cute AI, Student of ZDSPGC 2026
+</footer>
+</main>
+<!-- Bottom Navigation (from Shared Components JSON) -->
+<!-- The "Profile" tab is active based on page content -->
+<script>
+        // === Sex card selection ===
+        function selectSex(label, value) {
+            document.querySelectorAll('.sex-card').forEach(l => l.classList.remove('is-selected'));
+            label.classList.add('is-selected');
+            const radio = label.querySelector('input[name="sex"]');
+            if (radio) radio.checked = true;
+        }
+
+        // === Strand chip selection ===
+        function selectStrand(btn) {
+            document.querySelectorAll('.strand-chip').forEach(c => c.classList.remove('is-selected'));
+            btn.classList.add('is-selected');
+            const radio = btn.querySelector('input[name="strand"]');
+            if (radio) radio.checked = true;
+            
+            const otherContainer = document.getElementById('other-strand-container');
+            if (btn.getAttribute('data-strand') === 'Other') {
+                otherContainer.classList.remove('hidden');
+                document.getElementById('other-strand').focus();
+            } else {
+                otherContainer.classList.add('hidden');
+            }
+        }
+
+        // === Pre-fill from draft ===
+        const draft = SurveyDB.getDraft();
+        if (draft) {
+            if (draft.name && draft.name !== 'Anonymous') document.getElementById('full-name').value = draft.name;
+            if (draft.age) document.getElementById('age').value = draft.age;
+            if (draft.sex) {
+                const sexLabel = document.querySelector(`.sex-card input[value="${draft.sex}"]`);
+                if (sexLabel) selectSex(sexLabel.closest('.sex-card'), draft.sex);
+            }
+            if (draft.strand) {
+                const standardStrands = ['STEM', 'HUMSS', 'ABM', 'GAS', 'TVL', 'ArtsAndDesign', 'Sports', 'HE', 'CSS', 'SMAW'];
+                if (standardStrands.includes(draft.strand)) {
+                    const strandBtn = document.querySelector(`.strand-chip[data-strand="${draft.strand}"]`);
+                    if (strandBtn) selectStrand(strandBtn);
+                } else {
+                    const otherBtn = document.querySelector(`.strand-chip[data-strand="Other"]`);
+                    if (otherBtn) {
+                        selectStrand(otherBtn);
+                        const otherInput = document.getElementById('other-strand');
+                        if (otherInput) otherInput.value = draft.strand;
+                    }
+                }
+            }
+            if (draft.section) document.getElementById('section').value = draft.section;
+        }
+
+        // === Back button ===
+        document.getElementById('btn-back').addEventListener('click', () => {
+            saveCurrentToDraft();
+            window.location.href = 'introduction.html';
+        });
+
+        // === Save draft ===
+        function saveCurrentToDraft() {
+            const name = document.getElementById('full-name').value.trim();
+            const age = document.getElementById('age').value;
+            const sexEl = document.querySelector('input[name="sex"]:checked');
+            
+            const strandEl = document.querySelector('input[name="strand"]:checked');
+            let strandValue = '';
+            if (strandEl) {
+                if (strandEl.value === 'Other') {
+                    strandValue = document.getElementById('other-strand').value.trim();
+                } else {
+                    strandValue = strandEl.value;
+                }
+            }
+            
+            const section = document.getElementById('section').value.trim();
+            SurveyDB.saveDraft({
+                name,
+                age: age ? parseInt(age) : '',
+                sex: sexEl ? sexEl.value : '',
+                strand: strandValue,
+                section
+            });
+        }
+
+        // === Form validation & navigation ===
+        document.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('full-name').value.trim();
+            const ageVal = document.getElementById('age').value.trim();
+            const age = parseInt(ageVal);
+            const sexEl = document.querySelector('input[name="sex"]:checked');
+            
+            const strandEl = document.querySelector('input[name="strand"]:checked');
+            let strandValue = '';
+            if (strandEl) {
+                if (strandEl.value === 'Other') {
+                    strandValue = document.getElementById('other-strand').value.trim();
+                } else {
+                    strandValue = strandEl.value;
+                }
+            }
+            
+            const section = document.getElementById('section').value.trim();
+
+            if (name && SurveyDB.hasSubmitted(name)) {
+                alert('This Full Name has already completed the survey. You cannot answer the survey again.');
+                return;
+            }
+            if (!ageVal || isNaN(age) || age <= 0) { alert('Please enter a valid Age.'); return; }
+            if (!sexEl) { alert('Please select your Sex.'); return; }
+            if (!strandEl) { alert('Please select your Strand.'); return; }
+            if (strandEl.value === 'Other' && !strandValue) { alert('Please specify your Strand.'); return; }
+            if (!section) { alert('Please enter your Section.'); return; }
+
+            SurveyDB.saveDraft({ name: name || 'Anonymous', age, sex: sexEl.value, strand: strandValue, section });
+            window.location.href = 'perceptions.html';
+        });
+
+        // Input focus effect
+        document.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => {
+            input.addEventListener('focus', () => input.parentElement && input.parentElement.classList.add('shadow-md'));
+            input.addEventListener('blur',  () => input.parentElement && input.parentElement.classList.remove('shadow-md'));
+        });
+    </script>
+</body></html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="en" class="light"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script src="survey_db.js"></script><script id="tailwind-config">try{
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#4edea3",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "background": "#f8f9ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary": "#006c49",
+                    "surface-variant": "#d3e4fe",
+                    "on-secondary-container": "#00714d",
+                    "surface-container-high": "#dce9ff",
+                    "inverse-surface": "#213145",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-fixed": "#2a1700",
+                    "on-surface": "#0b1c30",
+                    "tertiary-fixed": "#ffddb8",
+                    "surface-dim": "#cbdbf5",
+                    "primary": "#004ac6",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#996100",
+                    "outline-variant": "#c3c6d7",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "surface-tint": "#0053db",
+                    "error": "#ba1a1a",
+                    "tertiary": "#784b00",
+                    "outline": "#737686",
+                    "on-primary-container": "#eeefff",
+                    "primary-container": "#2563eb",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-secondary-fixed-variant": "#005236",
+                    "secondary-fixed": "#6ffbbe",
+                    "on-background": "#0b1c30",
+                    "surface-container": "#e5eeff",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed": "#00174b",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "on-tertiary-container": "#ffeedd",
+                    "primary-fixed": "#dbe1ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "secondary-container": "#6cf8bb",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#b4c5ff",
+                    "on-surface-variant": "#434655",
+                    "on-secondary-fixed": "#002113",
+                    "surface": "#f8f9ff",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "surface-container-low": "#eff4ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "container-padding": "20px",
+                    "stack-sm": "12px",
+                    "gutter": "16px",
+                    "stack-lg": "40px",
+                    "stack-md": "24px"
+            },
+            "fontFamily": {
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "label-md": ["Inter"],
+                    "label-lg": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-sm-mobile": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    }catch(_e){}</script><meta charset="utf-8"></head><body class="font-body-md antialiased overflow-x-hidden min-h-screen flex flex-col">
+<!-- Top Navigation Header (Shared Component) -->
+<header class="fixed top-0 left-0 w-full z-[60] h-16 bg-surface flex justify-between items-center px-container-padding border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border-2 border-primary animate-pulse">
+<img class="w-full h-full object-cover" data-alt="A friendly, high-tech robot mascot with glowing blue eyes and a sleek white ceramic body, rendered in a 3D Pixar-like style. The robot is waving welcomingly, set against a soft blue academic background with floating translucent geometric shapes. The overall mood is intelligent, encouraging, and supportive for a scholarly survey environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGSa2JUdqSGw2Dc68wGSKZ66RM6XATYaSZHGwAbgkaQQTPxGLmdIAdH_8bJ-SRt5omjBQ7vcA_pqKuyNnqzDufZMgZ6JyiGbeJNw48td8ikXvKkvCpAZO7xSmZm-4o1TyelWzO85rGuckl4KKRxMA_TOcLZNVINn945-RZbYzlSHO4ocg2Lb7pXvNwAfTmnd6Z-OoVqxojr4mXceM7a3quEPh2afvdAZmdG-VWD02dngnWIuOgkcVD">
+</div>
+<div class="flex flex-col">
+<span class="text-label-lg font-label-lg font-bold text-on-surface">Impact of AI Tools</span>
+<span class="text-[10px] font-label-md text-primary tracking-wider uppercase">Academic Research 2024</span>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-all duration-300">
+<span class="material-symbols-outlined text-primary" data-original-icon="more_vert">more_vert</span>
+</button>
+<!-- Horizontal Progress Bar Anchor -->
+<div class="absolute bottom-0 left-0 w-full h-[2px] bg-primary-fixed">
+<div class="h-full w-[5%] progress-energy transition-all duration-700"></div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24 pb-28 px-container-padding max-w-4xl mx-auto w-full bento-pattern">
+<!-- Welcome Hero Section -->
+<section class="flex flex-col items-center mb-stack-lg">
+<div class="relative w-48 h-48 mb-6 animate-float">
+<div class="absolute inset-0 bg-primary/10 rounded-full blur-3xl"></div>
+<img class="relative w-full h-full object-contain" data-alt="A premium 3D illustration of a helpful robot assistant sitting atop a pile of glowing blue holographic books and a modern laptop. The robot is pointing towards a floating questionnaire digital tablet. The scene is illuminated by cinematic soft studio lighting with a focus on light blue and silver metallic textures, creating an atmosphere of organized progress and scholarly rigor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPvSyyzAjvXe9qiV0L84zjD4_r_UdKq9yAYvipZ5rmk92NMrYB3I-r77X43s_GOt4W7m2da7RFX00-VOydjYSFgcuuQVaqKrA7oqHDIGwXSsDncfJVmX24Kh5Besw0-HmsshECBvDGGWd9MqKo2Fr3hHcc41XXwp-A-4xkW9L-xB6SpVYNHBrRfCgMQx4-r7N4nlGpVtHubWMpMH2Le22i_jf3thkDn-352K9T19EpBlEEWhimDaM1">
+</div>
+<div class="text-center space-y-4">
+<div class="inline-block px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container font-label-lg text-label-lg shadow-sm">
+                    RESEARCH TITLE
+                </div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface max-w-2xl mx-auto px-4">
+                    Impact of AI Tools Assisting Grade 12 Students in Academic Tasks
+                </h1>
+</div>
+</section>
+<!-- Information Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Intro Message Card -->
+<div class="md:col-span-8 glass-card p-6 rounded-2xl shadow-sm space-y-4 border-l-4 border-primary">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;" data-original-icon="campaign">campaign</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Good day!</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                    You are invited to participate in this pre-survey for the research entitled <strong>“Impact of AI Tools Assisting Grade 12 Students in Academic Tasks.”</strong> 
+                    This survey aims to identify the AI tools commonly used by Grade 12 students and how these tools are utilized in accomplishing their academic tasks.
+                </p>
+<div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/30 flex gap-3">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;" data-original-icon="verified_user">verified_user</span>
+<p class="text-label-md font-label-md text-on-surface-variant italic">
+                        Your participation is voluntary, and all responses will be kept strictly confidential and used only for academic research purposes.
+                    </p>
+</div>
+</div>
+<!-- Instructions & Meta Card -->
+<div class="md:col-span-4 flex flex-col gap-gutter">
+<div class="bg-surface-container-highest p-5 rounded-2xl flex-grow flex flex-col justify-center gap-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-original-icon="assignment">assignment</span>
+<h3 class="font-label-lg text-label-lg text-on-surface">Instructions</h3>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant leading-tight">
+                        Read each question carefully. Select the option that best represents your preferred answer or write your response in the space provided.
+                    </p>
+</div>
+<div class="bg-primary p-5 rounded-2xl flex items-center justify-between text-on-primary">
+<div class="flex flex-col">
+<span class="text-[10px] font-label-md uppercase opacity-80">Estimated Time</span>
+<span class="text-headline-sm font-headline-sm">5-8 mins</span>
+</div>
+<span class="material-symbols-outlined text-3xl opacity-40">timer</span>
+</div>
+</div>
+</div>
+<!-- Call to Action -->
+<div class="mt-stack-lg flex flex-col items-center gap-4">
+<button id="btn-start-survey" class="group relative px-12 py-4 bg-primary text-on-primary rounded-full font-headline-sm text-headline-sm shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-3 overflow-hidden">
+<div class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+<span class="">Start Survey</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" data-original-icon="arrow_forward">arrow_forward</span>
+</button>
+<p class="text-label-md font-label-md text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                Anonymous &amp; Secure
+            </p>
+</div>
+</main>
+<!-- Footer Thank You Banner (As per image bottom) -->
+<footer class="mt-auto bg-surface-container-lowest border-t border-outline-variant p-6 flex flex-col items-center text-center">
+<div class="flex items-center gap-2 mb-2">
+<div class="h-[1px] w-12 bg-outline-variant"></div>
+<span class="font-headline-sm text-headline-sm text-primary italic">Thank you!</span>
+<div class="h-[1px] w-12 bg-outline-variant"></div>
+</div>
+<p class="text-label-md font-label-md text-on-surface-variant max-w-md mb-2">
+            Thank you for your participation! Your responses are greatly appreciated and will contribute to the success of this research.
+        </p>
+<p class="text-xs text-on-surface-variant/60 font-semibold mb-4">Developed by Densio Cute AI, Student of ZDSPGC 2026</p>
+<div class="mt-4 flex gap-8">
+<img class="w-8 h-8 opacity-40" data-alt="A clean, minimalist 3D icon of an open academic book with a glowing digital circuit bookmark, symbolizing the blend of traditional education and AI technology. The style is consistent with a light-blue, professional research aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwmXJwhz6GlAKvnLlEIsPbJtBJm3GIC3Od3UZXc6PMf1Or5SM6V-E3Kfbq0a8ry2PN_YCBzbru5RzR4m_jitEdIZvOYLcfmrTYjkxAAMnFn6hSEamlf-Qb3EjF5Nb0y4AH5_pFGDlhw2i9Sz6YPkARep-sVoUeNWEObJkHjCuEHjzfwHUJ2IlO1tFGTEWelTzb3jstXK6lrJqnz1gsxg2Aa1m1H9wo-FbRveWZlxULCR_aoigZzdFK">
+<img class="w-8 h-8 opacity-40" data-alt="A stylized 3D representation of a mortarboard cap with a sleek, metallic finish, sitting on top of a futuristic computer chip. The lighting is soft and corporate, matching the intelligent and systematic personality of the survey platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEyOtHozoqlurO6POzFPsuFdfAr3gZl56OjMUX1BIsujNp45luEVe5A6xFDykDV9kOslAKfr1U88ayWKZ5xebcxhUGoro55YTluFiVRhrdbXsE7w7ihvbLcHkvyqWmd9ozxyGc3ItjIld73zZuIlVrPTViW5omYA7uEyh_CSktLKwyxHrGxi3uP2zQRqwnCbHQQIkcjXLCoSqhoZMVZWC46kv54BHZVg5o4Il-VZZwcFrkejIwzeo_">
+</div>
+</footer>
+<!-- Bottom Navigation Bar (Shared Component - Hidden for landing/survey) -->
+
+<!-- Interactive Script for micro-interactions -->
+<script>
+        document.getElementById('btn-start-survey').addEventListener('click', () => {
+            const bar = document.querySelector('.progress-energy');
+            if (bar) bar.style.width = '10%';
+            
+            // Increment started count
+            SurveyDB.incrementStartedCount();
+            
+            setTimeout(() => {
+                window.location.href = 'profile.html';
+            }, 300);
+        });
+
+        // Simple parallax on mouse move for the floating mascot
+        document.addEventListener('mousemove', (e) => {
+            const mascot = document.querySelector('.animate-float');
+            if (mascot) {
+                const moveX = (e.clientX - window.innerWidth / 2) / 100;
+                const moveY = (e.clientY - window.innerHeight / 2) / 100;
+                mascot.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            }
+        });
+    </script>
+</body></html>

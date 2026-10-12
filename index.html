@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Login - Impact of AI Tools Survey</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="survey_db.js"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#ffddb8",
+                    "primary-fixed": "#dbe1ff",
+                    "on-tertiary-fixed": "#2a1700",
+                    "on-secondary-container": "#00714d",
+                    "on-background": "#0b1c30",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#00174b",
+                    "surface-tint": "#0053db",
+                    "tertiary-container": "#996100",
+                    "surface": "#f8f9ff",
+                    "inverse-surface": "#213145",
+                    "outline-variant": "#c3c6d7",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "surface-variant": "#d3e4fe",
+                    "surface-container": "#e5eeff",
+                    "primary-container": "#2563eb",
+                    "primary": "#004ac6",
+                    "on-secondary-fixed": "#002113",
+                    "secondary": "#006c49",
+                    "on-secondary-fixed-variant": "#005236",
+                    "on-primary-container": "#eeefff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#dce9ff",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "tertiary": "#784b00",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "surface-dim": "#cbdbf5",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "background": "#f8f9ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-low": "#eff4ff",
+                    "error": "#ba1a1a",
+                    "secondary-container": "#6cf8bb",
+                    "secondary-fixed-dim": "#4edea3",
+                    "on-surface": "#0b1c30",
+                    "secondary-fixed": "#6ffbbe",
+                    "inverse-primary": "#b4c5ff",
+                    "surface-container-lowest": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-container": "#ffeedd",
+                    "on-surface-variant": "#434655",
+                    "outline": "#737686",
+                    "on-primary-fixed-variant": "#003ea8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding": "20px",
+                    "stack-sm": "12px",
+                    "stack-lg": "40px",
+                    "gutter": "16px",
+                    "stack-md": "24px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-sm-mobile": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .role-selected {
+            border-color: #004ac6 !important;
+            background-color: #eff4ff !important;
+            color: #004ac6 !important;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen items-center justify-center font-body-md text-on-surface p-container-padding">
+<!-- Login Shell/Canvas -->
+<main class="w-full max-w-md space-y-stack-lg animate-in fade-in slide-in-from-bottom-4 duration-700">
+<!-- Brand Identity Section -->
+<header class="flex flex-col items-center space-y-stack-md">
+<div class="relative">
+<!-- Mascot Image -->
+<div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-surface-container-highest shadow-xl animate-float">
+<img alt="Mascot" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtFKgQGK-jp3QFvr44EDHACY2vf_E7MLFRd4SwJdSc1abNdwN5iKCKFkI3fRn-96MU09ldC4EIrl6Sgt-LlEz_9dshn1a6_Vg0PBmUpkfO9TyP-O5IxUt4dieEg_FS49MrrSJ0gVqHjZ5fUu-zodrdxvozrsH0fRQs_fOFNR2Klf88D5SmK6MmGAT_oq-FoEYB3uluDKRAk8XoXxmjxh1WOrw_cSqSlm3es6f2hsa3_YWjp-98uoam_iw3TaHusu_o8g"/>
+</div>
+<!-- Decorative element for academic feel -->
+<div class="absolute -bottom-2 -right-2 bg-primary text-on-primary rounded-full p-2 shadow-lg">
+<span class="material-symbols-outlined text-[20px]">school</span>
+</div>
+</div>
+<div class="text-center space-y-base">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary">
+                    Welcome
+                </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-[280px] mx-auto">
+                    Choose your role to explore the academic impact of AI.
+                </p>
+</div>
+</header>
+<!-- Form Card -->
+<section class="bg-surface-container-lowest p-stack-md rounded-xl border border-outline-variant shadow-sm space-y-stack-md">
+<!-- Role Selection -->
+<div class="space-y-base">
+<label class="block font-label-lg text-label-lg text-on-surface mb-2">
+                    Select Your Role
+                </label>
+<div class="grid grid-cols-2 gap-3">
+<button class="role-selected flex flex-col items-center justify-center p-4 border border-outline-variant rounded-lg transition-all hover:bg-surface-container-low active:scale-95" id="btn-student" onclick="selectRole('student')">
+<span class="material-symbols-outlined text-[32px] mb-1">school</span>
+<span class="font-label-lg text-label-lg">Student</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-lg transition-all hover:bg-surface-container-low active:scale-95" id="btn-admin" onclick="selectRole('admin')">
+<span class="material-symbols-outlined text-[32px] mb-1">admin_panel_settings</span>
+<span class="font-label-lg text-label-lg">Admin</span>
+</button>
+</div>
+</div>
+<!-- Admin Password Field (Hidden by default) -->
+<div class="space-y-base hidden" id="admin-password-container">
+<div class="flex justify-between items-center">
+<label class="block font-label-lg text-label-lg text-on-surface" for="password">
+                        Admin Password
+                    </label>
+</div>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-on-surface-variant group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined">lock</span>
+</div>
+<input class="block w-full pl-10 pr-12 py-3 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" id="password" placeholder="••••••••" type="password"/>
+<button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3 flex items-center text-on-surface-variant hover:text-primary transition-colors focus:outline-none">
+<span class="material-symbols-outlined" id="toggle-password-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Primary Action -->
+<button class="w-full bg-primary text-on-primary py-4 px-6 rounded-full font-label-lg text-label-lg shadow-md active:scale-95 hover:bg-on-primary-fixed-variant transition-all duration-300 mt-stack-md" id="login-button">
+                Login as Student
+            </button>
+</section>
+<!-- Footer Help -->
+<footer class="text-center pt-base space-y-3 pb-6">
+<p class="text-xs text-on-surface-variant/60 font-semibold">Developed by Densio Cute AI, Student of ZDSPGC 2026</p>
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center gap-1 mx-auto">
+<span class="material-symbols-outlined text-[18px]">help_outline</span>
+<span class="font-label-md text-label-md">Technical Support</span>
+</button>
+</footer>
+</main>
+
+<!-- Survey Locked Modal -->
+<div class="fixed inset-0 z-[80] bg-on-background/50 backdrop-blur-md flex items-center justify-center p-container-padding hidden" id="surveyLockedModal">
+  <div class="bg-surface rounded-2xl p-8 max-w-sm w-full shadow-2xl flex flex-col items-center text-center gap-5 animate-in fade-in zoom-in-95 duration-300">
+    <div class="w-20 h-20 bg-gradient-to-br from-error-container to-error/20 rounded-full flex items-center justify-center shadow-lg">
+      <span class="material-symbols-outlined text-error text-4xl" style="font-variation-settings: 'FILL' 1;">lock</span>
+    </div>
+    <div>
+      <h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">Survey is Locked</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">Access to the survey has been temporarily <strong>restricted by the administrator</strong>. Please wait for your teacher to unlock it before proceeding.</p>
+    </div>
+    <div class="w-full p-4 rounded-xl bg-error-container/30 border border-error/20 flex items-start gap-3 text-left">
+      <span class="material-symbols-outlined text-error text-[20px] mt-0.5" style="font-variation-settings: 'FILL' 1;">info</span>
+      <p class="font-label-md text-label-md text-on-surface-variant">If you believe this is a mistake, please contact your teacher or administrator.</p>
+    </div>
+    <button id="btn-locked-close" class="w-full py-3 rounded-full bg-surface-container border border-outline-variant text-on-surface font-label-lg hover:bg-surface-dim transition-all">OK, Got it</button>
+  </div>
+</div>
+
+<script>
+        let currentRole = 'student';
+
+        // Toggle password visibility
+        document.getElementById('toggle-password').addEventListener('click', () => {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggle-password-icon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = 'visibility_off';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = 'visibility';
+            }
+        });
+
+        function selectRole(role) {
+            currentRole = role;
+            const studentBtn = document.getElementById('btn-student');
+            const adminBtn = document.getElementById('btn-admin');
+            const passwordContainer = document.getElementById('admin-password-container');
+            const loginButton = document.getElementById('login-button');
+
+            if (role === 'student') {
+                studentBtn.classList.add('role-selected');
+                adminBtn.classList.remove('role-selected');
+                passwordContainer.classList.add('hidden');
+                loginButton.innerText = 'Login as Student';
+            } else {
+                adminBtn.classList.add('role-selected');
+                studentBtn.classList.remove('role-selected');
+                passwordContainer.classList.remove('hidden');
+                loginButton.innerText = 'Login as Admin';
+            }
+        }
+
+        // Locked modal helpers
+        function showLockedModal() {
+            document.getElementById('surveyLockedModal').classList.remove('hidden');
+        }
+        function hideLockedModal() {
+            document.getElementById('surveyLockedModal').classList.add('hidden');
+        }
+        document.getElementById('btn-locked-close').addEventListener('click', hideLockedModal);
+        document.getElementById('surveyLockedModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('surveyLockedModal')) hideLockedModal();
+        });
+
+        // Login Action
+        document.getElementById('login-button').addEventListener('click', () => {
+            if (currentRole === 'student') {
+                // Block student if survey is locked
+                if (localStorage.getItem('survey_locked') === 'true') {
+                    showLockedModal();
+                    return;
+                }
+                SurveyDB.startStudentSession();
+                window.location.href = 'introduction.html';
+            } else {
+                const passwordVal = document.getElementById('password').value;
+                if (SurveyDB.loginAdmin(passwordVal)) {
+                    window.location.href = 'admin.html';
+                } else {
+                    alert('Incorrect password. Please contact your teacher or administrator.');
+                }
+            }
+        });
+
+        // Show locked modal if redirected from a student page that was locked
+        const _urlParams = new URLSearchParams(window.location.search);
+        if (_urlParams.get('locked') === 'true') {
+            // Wait for SurveyDB sync to confirm lock state before showing modal
+            setTimeout(() => {
+                if (localStorage.getItem('survey_locked') === 'true') {
+                    showLockedModal();
+                }
+            }, 600);
+        }
+
+        // Simple micro-interaction for button press
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('scale-95');
+            });
+        });
+
+        // Dynamic background effect (subtle)
+        const bgEffect = document.createElement('div');
+        bgEffect.className = 'fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-40';
+        bgEffect.innerHTML = `
+            <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary-fixed rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-[0%] right-[0%] w-[30%] h-[30%] bg-secondary-container rounded-full blur-[100px]"></div>
+        `;
+        document.body.appendChild(bgEffect);
+    </script>
+</body></html>
+

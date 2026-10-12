@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Impact of AI Tools - Admin Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Survey DB -->
+<script src="survey_db.js"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#e5eeff",
+                        "surface-container-low": "#eff4ff",
+                        "primary": "#004ac6",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "secondary-fixed-dim": "#4edea3",
+                        "outline": "#737686",
+                        "surface-tint": "#0053db",
+                        "tertiary-container": "#996100",
+                        "error-container": "#ffdad6",
+                        "surface": "#f8f9ff",
+                        "surface-bright": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#b4c5ff",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "primary-fixed": "#dbe1ff",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#784b00",
+                        "on-secondary-fixed": "#002113",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#6cf8bb",
+                        "background": "#f8f9ff",
+                        "outline-variant": "#c3c6d7",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#cbdbf5",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#eeefff",
+                        "surface-container-high": "#dce9ff",
+                        "on-primary-fixed": "#00174b",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-container": "#ffeedd",
+                        "secondary": "#006c49",
+                        "on-surface-variant": "#434655",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-background": "#0b1c30",
+                        "on-tertiary-fixed": "#2a1700",
+                        "tertiary-fixed": "#ffddb8",
+                        "surface-variant": "#d3e4fe",
+                        "primary-container": "#2563eb",
+                        "on-secondary-container": "#00714d",
+                        "inverse-surface": "#213145",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "20px",
+                        "base": "8px",
+                        "stack-md": "24px",
+                        "gutter": "16px",
+                        "stack-sm": "12px",
+                        "stack-lg": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #d3e4fe; border-radius: 10px; }
+    body { min-height: 100dvh; }
+    .bar-fill { transition: width 0.6s ease-out; }
+    .tab-active {
+        background-color: #004ac6 !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+    }
+    .strand-filter-active {
+        background-color: #004ac6 !important;
+        color: #ffffff !important;
+        border-color: #004ac6 !important;
+        box-shadow: 0 2px 8px rgba(0, 74, 198, 0.25);
+    }
+    /* Mobile: smaller main padding */
+    @media (max-width: 639px) {
+        main { padding-left: 12px !important; padding-right: 12px !important; }
+        .px-container-padding { padding-left: 12px; padding-right: 12px; }
+    }
+    /* Tally table: always allow horizontal scroll */
+    #tally-table { min-width: 600px; }
+    /* Touch-friendly strand filter chips */
+    #strand-filter-chips button { min-height: 36px; }
+    /* Responsive tally table font on mobile */
+    @media (max-width: 639px) {
+        #tally-table { font-size: 11px; }
+        #tally-table th, #tally-table td { padding: 6px 8px; }
+    }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen">
+
+<!-- TopAppBar -->
+<header class="bg-surface border-b border-outline-variant flex justify-between items-center w-full px-container-padding h-16 fixed top-0 z-50">
+<div class="flex items-center gap-2 sm:gap-3 min-w-0">
+    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-primary/20 shrink-0">
+        <img alt="AI Mascot" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDI38Gt4CzTxPqYS_eOGMm5pRQ5geYnCuERjY0R6dNBnXjyAtm-GiAxE8hFeu3SluAA2zNuLx5foK68DNaHY2bLxuE3oH9fJzV0xzXJ84XTf4sQUGOn3spK561ofAOPFhDjo_Gdvm8ic4Oto4WPBW-6CXtzyEtT57KcKoT4RpT3NMaMKNNTp6kGfzmoYIPHSlatkj8JoIZrw6CsyCaLdIIQSkBEHGsJgStGKB_qPeCduMtD3C8jHiA"/>
+    </div>
+    <div class="min-w-0">
+        <h1 class="text-on-surface font-bold font-label-lg text-label-lg leading-tight truncate">Impact of AI Tools — Admin</h1>
+        <span class="text-xs text-on-surface-variant font-medium hidden sm:block">ChatGPT Academic Research Study</span>
+    </div>
+</div>
+<div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+    <button class="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 rounded-full transition-all duration-300" id="btn-toggle-lock">
+        <span class="material-symbols-outlined text-sm" id="lock-icon">lock_open</span>
+        <span class="font-label-md hidden sm:inline" id="lock-text">Active</span>
+    </button>
+    <button class="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 rounded-full bg-error-container/30 border border-error/30 text-error hover:bg-error-container transition-all duration-300" id="btn-clear-data">
+        <span class="material-symbols-outlined text-sm">delete_sweep</span>
+        <span class="font-label-md hidden sm:inline">Clear Data</span>
+    </button>
+    <button class="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 rounded-full bg-surface-container border border-outline-variant text-primary hover:bg-surface-variant transition-all duration-300" id="btn-logout">
+        <span class="material-symbols-outlined text-sm">logout</span>
+        <span class="font-label-md hidden sm:inline">Logout</span>
+    </button>
+</div>
+</header>
+
+<main class="pt-20 pb-12 px-container-padding max-w-6xl mx-auto space-y-6">
+
+<!-- Firebase Permission Warning Banner (hidden by default) -->
+<div id="firebase-warning" class="hidden bg-error-container border border-error/40 rounded-xl p-4 flex items-start gap-3">
+    <span class="material-symbols-outlined text-error text-2xl shrink-0 mt-0.5" style="font-variation-settings:'FILL' 1">warning</span>
+    <div class="flex-1">
+        <p class="font-bold text-error text-sm mb-1">🔴 Firebase Database: Permission Denied</p>
+        <p class="text-on-error-container text-xs mb-2">Your Firebase Realtime Database security rules are blocking read/write access. Student submissions may not be visible and new submissions will fail to sync.</p>
+        <p class="text-on-error-container text-xs font-semibold">To fix: Go to <a href="https://console.firebase.google.com/project/presurvey-f0ecd/database" target="_blank" class="underline text-error font-bold">Firebase Console → Realtime Database → Rules</a> and set:</p>
+        <code class="block mt-1 bg-error/10 text-error text-xs rounded-lg px-3 py-2 font-mono">{"rules": {".read": true, ".write": true}}</code>
+        <p class="text-on-error-container text-xs mt-2 italic">Note: The table below shows data from this browser's local cache only.</p>
+    </div>
+</div>
+
+<!-- Dashboard Welcome -->
+<section class="flex flex-col md:flex-row md:items-center justify-between gap-3 pt-2">
+    <div>
+        <h2 class="font-headline-md text-headline-md text-primary font-bold">Research Dashboard &amp; Statistical Tally</h2>
+        <p class="text-on-surface-variant font-body-sm">Cross-tabulated analysis isolated by strand, demographic, and student response distribution.</p>
+    </div>
+</section>
+
+<!-- Summary Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant shadow-sm flex flex-col items-center text-center">
+        <span class="material-symbols-outlined text-primary text-3xl mb-1" style="font-variation-settings: 'FILL' 1;">groups</span>
+        <span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Total Respondents</span>
+        <span class="text-headline-lg font-headline-lg text-primary font-bold" id="stat-total">—</span>
+    </div>
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant shadow-sm flex flex-col items-center text-center">
+        <span class="material-symbols-outlined text-secondary text-3xl mb-1" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+        <span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Completion Rate</span>
+        <span class="text-headline-lg font-headline-lg text-secondary font-bold" id="stat-rate">—</span>
+    </div>
+    <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant shadow-sm flex flex-col items-center text-center">
+        <span class="material-symbols-outlined text-tertiary text-3xl mb-1" style="font-variation-settings: 'FILL' 1;">star</span>
+        <span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Overall Assistance Mean (Part II)</span>
+        <span class="text-headline-sm font-headline-sm text-tertiary font-bold" id="stat-mean-score">—</span>
+    </div>
+</div>
+
+<!-- Section Switcher Tabs -->
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-1 bg-surface-container-low rounded-2xl border border-outline-variant/60 w-full sm:w-fit">
+    <button class="px-4 py-2.5 rounded-xl font-label-lg text-label-lg transition-all flex items-center justify-center gap-2 tab-active" id="tab-btn-tally" onclick="switchView('tally')">
+        <span class="material-symbols-outlined text-[18px]">query_stats</span>
+        <span class="hidden sm:inline">Frequency Tally by Strand</span>
+        <span class="sm:hidden">Tally View</span>
+    </button>
+    <button class="px-4 py-2.5 rounded-xl font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-all flex items-center justify-center gap-2" id="tab-btn-records" onclick="switchView('records')">
+        <span class="material-symbols-outlined text-[18px]">table_rows</span>
+        <span class="hidden sm:inline">Individual Student Records</span>
+        <span class="sm:hidden">Records</span>
+    </button>
+</div>
+
+<!-- ============================================================== -->
+<!-- TAB 1: TALLY & CROSS-TABULATION VIEW (ISOLATED BY STRAND) -->
+<!-- ============================================================== -->
+<div id="view-tally" class="space-y-6">
+
+    <!-- Isolation Filter Bar -->
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-5 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-outline-variant/40 pb-3">
+            <div class="flex items-center gap-2 text-primary">
+                <span class="material-symbols-outlined text-[22px]">tune</span>
+                <h3 class="font-label-lg text-label-lg font-bold uppercase tracking-wider">Isolate Submissions by Strand</h3>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="exportTallyToCSV()" class="px-4 py-1.5 rounded-full border border-primary text-primary hover:bg-primary hover:text-white font-label-md text-label-md font-bold transition-all flex items-center gap-1.5 shadow-sm">
+                    <span class="material-symbols-outlined text-[16px]">download</span>
+                    Export Tally to CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- Strand Filter Chips -->
+        <div>
+            <span class="text-xs font-semibold text-outline uppercase tracking-wider block mb-2">Select Strand to Isolate:</span>
+            <div class="flex flex-wrap gap-2" id="strand-filter-chips">
+                <!-- Dynamically generated buttons -->
+                <button class="px-4 py-2 rounded-xl border border-outline-variant text-xs font-bold transition-all strand-filter-active flex items-center gap-1.5" onclick="setStrandFilter('ALL')">
+                    All Strands <span class="bg-white/20 text-white px-2 py-0.5 rounded-full text-[10px]" id="count-chip-all">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Secondary Filters (Section & Sex) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <div class="flex items-center gap-3">
+                <label class="text-xs font-bold text-outline uppercase tracking-wider shrink-0" for="filter-section">Section:</label>
+                <select id="filter-section" onchange="setSectionFilter(this.value)" class="w-full bg-surface border border-outline-variant rounded-lg text-xs font-semibold p-2 focus:ring-primary focus:border-primary">
+                    <option value="ALL">All Sections</option>
+                </select>
+            </div>
+            <div class="flex items-center gap-3">
+                <label class="text-xs font-bold text-outline uppercase tracking-wider shrink-0" for="filter-sex">Sex:</label>
+                <select id="filter-sex" onchange="setSexFilter(this.value)" class="w-full bg-surface border border-outline-variant rounded-lg text-xs font-semibold p-2 focus:ring-primary focus:border-primary">
+                    <option value="ALL">All</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="prefer_not_to_say">Prefer not to say</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Active Filter Status Banner -->
+        <div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/60 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+            <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-primary animate-ping"></span>
+                <span class="text-xs font-bold text-on-surface" id="tally-status-text">Showing All Strands</span>
+            </div>
+            <span class="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full" id="tally-filtered-count">0 Students Selected</span>
+        </div>
+    </div>
+
+    <!-- PART II. CHATGPT ASSISTANCE (15 STATEMENTS TALLY TABLE) -->
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-outline-variant bg-surface-container-low/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+            <div>
+                <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">PART II. ChatGPT Assistance in Academic Tasks — Rating Distribution</h3>
+                <p class="text-label-md font-label-md text-on-surface-variant">Tally of student ratings for each statement (5 = Strongly Agree, 1 = Strongly Disagree)</p>
+            </div>
+            <div class="text-right">
+                <span class="text-xs text-outline font-semibold uppercase tracking-wider block">Isolated Mean</span>
+                <span class="text-headline-sm font-headline-sm font-bold text-primary" id="tally-part2-mean">—</span>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-left text-xs min-w-[850px]" id="tally-table">
+                <thead class="bg-surface-container-low text-on-surface-variant font-bold uppercase tracking-wider">
+                    <tr>
+                        <th class="px-4 py-3.5 w-12 text-center">#</th>
+                        <th class="px-4 py-3.5">Statement</th>
+                        <th class="px-3 py-3.5 text-center bg-[#6cf8bb]/10 text-secondary w-20">5 (SA)</th>
+                        <th class="px-3 py-3.5 text-center bg-surface-container w-20">4 (A)</th>
+                        <th class="px-3 py-3.5 text-center bg-tertiary-fixed/15 text-tertiary w-20">3 (N)</th>
+                        <th class="px-3 py-3.5 text-center bg-error-container/10 text-error w-20">2 (D)</th>
+                        <th class="px-3 py-3.5 text-center bg-error-container/20 text-error w-20 font-extrabold">1 (SD)</th>
+                        <th class="px-3 py-3.5 text-center w-16">Total</th>
+                        <th class="px-3 py-3.5 text-center w-20 text-primary font-bold">Mean</th>
+                        <th class="px-4 py-3.5 text-left w-36">Interpretation</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant/40" id="tally-tbody">
+                    <tr><td colspan="10" class="px-6 py-8 text-center text-on-surface-variant">Loading tallies...</td></tr>
+                </tbody>
+                <tfoot class="bg-surface-container font-bold text-on-surface border-t-2 border-outline-variant">
+                    <tr>
+                        <td colspan="8" class="px-4 py-4 text-right uppercase tracking-wider text-xs font-bold">Overall Composite Mean:</td>
+                        <td class="px-3 py-4 text-center text-sm font-extrabold text-primary" id="tally-composite-mean">—</td>
+                        <td class="px-4 py-4 text-left text-xs font-bold text-primary" id="tally-composite-desc">—</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <!-- PART III. STUDENTS' USE OF CHATGPT TALLIES (FOR ISOLATED STRAND) -->
+    <div class="space-y-4">
+        <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">PART III. Students' Use of ChatGPT — Isolated Tallies</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+            <!-- Q1: Frequency of Use -->
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-5 shadow-sm space-y-3">
+                <div class="flex items-center gap-2 text-primary border-b border-outline-variant/40 pb-2">
+                    <span class="material-symbols-outlined text-[20px]">calendar_month</span>
+                    <h4 class="font-label-lg text-label-lg font-bold">1. Frequency of Use</h4>
+                </div>
+                <div class="space-y-2.5 pt-1" id="tally-frequency-bars">
+                    <p class="text-xs text-on-surface-variant">Loading...</p>
+                </div>
+            </div>
+
+            <!-- Q2: Purposes / Usages -->
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-5 shadow-sm space-y-3">
+                <div class="flex items-center gap-2 text-primary border-b border-outline-variant/40 pb-2">
+                    <span class="material-symbols-outlined text-[20px]">task</span>
+                    <h4 class="font-label-lg text-label-lg font-bold">2. What ChatGPT is Used For</h4>
+                </div>
+                <div class="space-y-2 pt-1 max-h-64 overflow-y-auto custom-scrollbar pr-1" id="tally-usages-bars">
+                    <p class="text-xs text-on-surface-variant">Loading...</p>
+                </div>
+            </div>
+
+            <!-- Q4: Time Spent Each Day -->
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-5 shadow-sm space-y-3">
+                <div class="flex items-center gap-2 text-primary border-b border-outline-variant/40 pb-2">
+                    <span class="material-symbols-outlined text-[20px]">schedule</span>
+                    <h4 class="font-label-lg text-label-lg font-bold">4. Daily Time Spent</h4>
+                </div>
+                <div class="space-y-2.5 pt-1" id="tally-time-bars">
+                    <p class="text-xs text-on-surface-variant">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q3: Tasks Most Often Used -->
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-5 shadow-sm space-y-3">
+            <div class="flex items-center gap-2 text-primary border-b border-outline-variant/40 pb-2">
+                <span class="material-symbols-outlined text-[20px]">edit_note</span>
+                <h4 class="font-label-lg text-label-lg font-bold">3. Academic Tasks Used Most Often (Submitted Responses)</h4>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-60 overflow-y-auto custom-scrollbar pr-2" id="tally-tasks-list">
+                <p class="text-xs text-on-surface-variant">Loading tasks...</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ============================================================== -->
+<!-- TAB 2: INDIVIDUAL STUDENT RECORDS TABLE -->
+<!-- ============================================================== -->
+<div id="view-records" class="hidden space-y-6">
+
+    <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b border-outline-variant space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Individual Student Submissions</h3>
+                    <p class="text-xs text-on-surface-variant">Filter, inspect, or view separated by strand and section</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                    <!-- View Mode Toggle: Standard List vs Grouped by Strand & Section -->
+                    <div class="inline-flex rounded-xl p-1 bg-surface-container-low border border-outline-variant/60 text-xs font-bold">
+                        <button id="records-view-list" onclick="setRecordsDisplayMode('list')" class="px-3 py-1.5 rounded-lg transition-all tab-active flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">list</span>
+                            All List
+                        </button>
+                        <button id="records-view-grouped" onclick="setRecordsDisplayMode('grouped')" class="px-3 py-1.5 rounded-lg transition-all text-on-surface-variant hover:text-primary flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">view_agenda</span>
+                            Grouped by Strand &amp; Section
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Controls for Records -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">search</span>
+                    <input class="w-full pl-9 pr-3 py-2 rounded-xl border border-outline-variant bg-surface text-xs focus:ring-2 focus:ring-primary focus:border-primary" id="search-input" placeholder="Search name, task..." type="text"/>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label for="records-filter-strand" class="text-xs font-bold text-outline uppercase tracking-wider shrink-0">Strand:</label>
+                    <select id="records-filter-strand" onchange="applyRecordsFilters()" class="w-full bg-surface border border-outline-variant rounded-xl text-xs font-semibold p-2 focus:ring-primary focus:border-primary">
+                        <option value="ALL">All Strands</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label for="records-filter-section" class="text-xs font-bold text-outline uppercase tracking-wider shrink-0">Section:</label>
+                    <select id="records-filter-section" onchange="applyRecordsFilters()" class="w-full bg-surface border border-outline-variant rounded-xl text-xs font-semibold p-2 focus:ring-primary focus:border-primary">
+                        <option value="ALL">All Sections</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grouped View Container (shown when Grouped mode is active) -->
+        <div id="records-grouped-container" class="hidden p-6 space-y-6 bg-surface-container-low/30"></div>
+
+        <!-- Table View Container (default) -->
+        <div id="records-table-container" class="overflow-x-auto">
+            <table class="w-full text-left min-w-[700px]">
+                <thead class="bg-surface-container-low text-on-surface-variant font-label-lg text-label-lg">
+                    <tr>
+                        <th class="px-6 py-3">Student</th>
+                        <th class="px-6 py-3">Strand</th>
+                        <th class="px-6 py-3">Section</th>
+                        <th class="px-6 py-3">Frequency</th>
+                        <th class="px-6 py-3">Daily Time</th>
+                        <th class="px-6 py-3 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant" id="submissions-tbody">
+                    <tr><td colspan="6" class="px-6 py-8 text-center text-on-surface-variant">Loading submissions...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="px-6 py-4 bg-surface-container-low flex justify-between items-center text-label-md font-label-md text-on-surface-variant">
+            <span id="pagination-info">Showing 0 of 0 respondents</span>
+            <div class="flex gap-2">
+                <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container border border-outline-variant transition-colors" id="btn-prev-page"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+                <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container border border-outline-variant transition-colors" id="btn-next-page"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer class="py-8 text-center text-on-surface-variant/60 text-xs font-semibold border-t border-outline-variant/20 mt-8">
+    Developed by Densio Cute AI, Student of ZDSPGC 2026
+</footer>
+</main>
+
+<!-- Details Modal -->
+<div class="fixed inset-0 z-[60] bg-on-background/40 backdrop-blur-sm flex items-center justify-center p-container-padding hidden" id="detailsModal">
+<div class="bg-surface rounded-2xl p-6 max-w-lg w-full shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
+    <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+        <h2 class="font-headline-sm text-headline-sm text-primary font-bold">Respondent Details</h2>
+        <button onclick="document.getElementById('detailsModal').classList.add('hidden')" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    <div id="details-content" class="space-y-4"></div>
+</div>
+</div>
+
+<!-- Clear Data Confirmation Modal -->
+<div class="fixed inset-0 z-[70] bg-on-background/50 backdrop-blur-sm flex items-center justify-center p-container-padding hidden" id="clearDataModal">
+<div class="bg-surface rounded-2xl p-8 max-w-sm w-full shadow-2xl flex flex-col items-center text-center gap-5">
+    <div class="w-16 h-16 bg-error-container rounded-full flex items-center justify-center">
+        <span class="material-symbols-outlined text-error text-3xl" style="font-variation-settings: 'FILL' 1;">warning</span>
+    </div>
+    <div>
+        <h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">Clear All Data?</h2>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">This will permanently delete <strong>all survey submissions</strong> from this device. This action cannot be undone.</p>
+    </div>
+    <div class="flex gap-3 w-full">
+        <button class="flex-1 py-3 rounded-full border border-outline-variant text-on-surface font-label-lg hover:bg-surface-container transition-all" id="btn-cancel-clear">Cancel</button>
+        <button class="flex-1 py-3 rounded-full bg-error text-on-error font-label-lg hover:brightness-90 transition-all flex items-center justify-center gap-2" id="btn-confirm-clear">
+            <span class="material-symbols-outlined text-[18px]">delete_forever</span>
+            Clear All
+        </button>
+    </div>
+</div>
+</div>
+
+<script>
+    // Auth guard
+    const user = SurveyDB.getCurrentUser();
+    if (!user || user.role !== 'admin') {
+        window.location.href = 'index.html';
+    }
+
+    // Logout
+    document.getElementById('btn-logout').addEventListener('click', () => {
+        SurveyDB.logout();
+        window.location.href = 'index.html';
+    });
+
+    // Lock Survey flow
+    function updateLockUI() {
+        const isLocked = localStorage.getItem('survey_locked') === 'true';
+        const btn = document.getElementById('btn-toggle-lock');
+        const icon = document.getElementById('lock-icon');
+        const text = document.getElementById('lock-text');
+        
+        if (isLocked) {
+            btn.className = "flex items-center gap-2 px-4 py-1.5 rounded-full bg-error-container/30 border border-error/30 text-error hover:bg-error-container transition-all duration-300 font-bold";
+            icon.textContent = "lock";
+            text.textContent = "Locked";
+        } else {
+            btn.className = "flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary-container/30 border border-secondary/30 text-secondary hover:bg-secondary-container transition-all duration-300";
+            icon.textContent = "lock_open";
+            text.textContent = "Active";
+        }
+    }
+
+    document.getElementById('btn-toggle-lock').addEventListener('click', async () => {
+        await SurveyDB.toggleSurveyLock();
+        updateLockUI();
+    });
+
+    // Clear Data flow
+    document.getElementById('btn-clear-data').addEventListener('click', () => {
+        document.getElementById('clearDataModal').classList.remove('hidden');
+    });
+    document.getElementById('btn-cancel-clear').addEventListener('click', () => {
+        document.getElementById('clearDataModal').classList.add('hidden');
+    });
+    document.getElementById('btn-confirm-clear').addEventListener('click', async () => {
+        await SurveyDB.resetAllData();
+        localStorage.setItem('survey_session', JSON.stringify({ role: 'admin' }));
+        document.getElementById('clearDataModal').classList.add('hidden');
+        await loadData();
+    });
+    document.getElementById('clearDataModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('clearDataModal')) {
+            document.getElementById('clearDataModal').classList.add('hidden');
+        }
+    });
+
+    // --- State ---
+    let allSubmissions = [];
+    let filteredSubmissions = [];
+    const PAGE_SIZE = 10;
+    let currentPage = 0;
+
+    let currentStrandFilter = 'ALL';
+    let currentSectionFilter = 'ALL';
+    let currentSexFilter = 'ALL';
+
+    const statements = [
+        "The explanation provided by ChatGPT was easy to understand.",
+        "ChatGPT’s responses clearly answered my questions.",
+        "The examples given by ChatGPT were helpful for my learning.",
+        "ChatGPT provided useful code snippets and samples when needed.",
+        "ChatGPT helps me summarize information from lessons or reading materials.",
+        "ChatGPT helps me improve my written schoolwork.",
+        "ChatGPT helps me save time when completing academic tasks.",
+        "ChatGPT helps me explain topics that I do not understand.",
+        "ChatGPT provides useful suggestions when I am doing school activities.",
+        "ChatGPT helps me feel more confident when completing academic tasks.",
+        "I find ChatGPT convenient to use for my academic activities.",
+        "I check the information provided by ChatGPT before using it in my schoolwork.",
+        "I believe ChatGPT is helpful when used responsibly for learning.",
+        "Using ChatGPT appropriately can improve the way I accomplish academic tasks.",
+        "Overall, ChatGPT provides meaningful assistance in completing my academic tasks."
+    ];
+
+    function getVerbalDesc(mean) {
+        const val = parseFloat(mean);
+        if (isNaN(val)) return '—';
+        if (val >= 4.50) return 'Strongly Agree';
+        if (val >= 3.50) return 'Agree';
+        if (val >= 2.50) return 'Neutral';
+        if (val >= 1.50) return 'Disagree';
+        return 'Strongly Disagree';
+    }
+
+    function switchView(view) {
+        const tallyView = document.getElementById('view-tally');
+        const recordsView = document.getElementById('view-records');
+        const tallyBtn = document.getElementById('tab-btn-tally');
+        const recordsBtn = document.getElementById('tab-btn-records');
+
+        if (view === 'tally') {
+            tallyView.classList.remove('hidden');
+            recordsView.classList.add('hidden');
+            tallyBtn.className = "px-4 py-2.5 rounded-xl font-label-lg text-label-lg transition-all flex items-center justify-center gap-2 tab-active";
+            recordsBtn.className = "px-4 py-2.5 rounded-xl font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-all flex items-center justify-center gap-2";
+        } else {
+            tallyView.classList.add('hidden');
+            recordsView.classList.remove('hidden');
+            recordsBtn.className = "px-4 py-2.5 rounded-xl font-label-lg text-label-lg transition-all flex items-center justify-center gap-2 tab-active";
+            tallyBtn.className = "px-4 py-2.5 rounded-xl font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-all flex items-center justify-center gap-2";
+        }
+    }
+
+    async function loadData() {
+        const synced = await SurveyDB.syncWithServer();
+        allSubmissions = SurveyDB.getSubmissions();
+        filteredSubmissions = [...allSubmissions];
+
+        // Show/hide Firebase permission warning
+        const warningEl = document.getElementById('firebase-warning');
+        if (warningEl) {
+            if (!synced && window._firebasePermissionDenied) {
+                warningEl.classList.remove('hidden');
+            } else {
+                warningEl.classList.add('hidden');
+            }
+        }
+
+        renderStats();
+        setupFilters();
+        renderTallyView();
+        renderTable();
+        updateLockUI();
+    }
+
+    // Top Summary Stats
+    function renderStats() {
+        const total = allSubmissions.length;
+        const started = SurveyDB.getStartedCount();
+        const rate = started > 0 ? Math.round((total / started) * 100) : 100;
+        document.getElementById('stat-total').textContent = total.toLocaleString();
+        document.getElementById('stat-rate').textContent = rate + '%';
+
+        let totalScoreSum = 0;
+        let totalItemsRated = 0;
+        allSubmissions.forEach(s => {
+            if (s.perceptions) {
+                Object.values(s.perceptions).forEach(val => {
+                    const num = parseInt(val);
+                    if (!isNaN(num) && num > 0) {
+                        totalScoreSum += num;
+                        totalItemsRated++;
+                    }
+                });
+            }
+        });
+        const meanScore = totalItemsRated > 0 ? (totalScoreSum / totalItemsRated).toFixed(2) : '—';
+        document.getElementById('stat-mean-score').textContent = meanScore !== '—' ? `${meanScore} / 5.0` : '—';
+    }
+
+    // Setup Filter Chips & Dropdowns
+    function setupFilters() {
+        // Collect all distinct strands and counts
+        const strandCounts = {};
+        const sectionsSet = new Set();
+
+        allSubmissions.forEach(s => {
+            const st = s.strand ? s.strand.trim() : 'Unspecified';
+            strandCounts[st] = (strandCounts[st] || 0) + 1;
+            if (s.section && s.section.trim()) sectionsSet.add(s.section.trim());
+        });
+
+        // Populate Strand Filter Chips
+        const chipsContainer = document.getElementById('strand-filter-chips');
+        chipsContainer.innerHTML = `
+            <button class="px-4 py-2 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 ${currentStrandFilter === 'ALL' ? 'strand-filter-active' : 'border-outline-variant bg-surface text-on-surface hover:bg-surface-container-low'}" onclick="setStrandFilter('ALL')">
+                All Strands <span class="bg-black/10 dark:bg-white/20 px-2 py-0.5 rounded-full text-[10px]">${allSubmissions.length}</span>
+            </button>
+        `;
+
+        Object.keys(strandCounts).sort().forEach(st => {
+            const count = strandCounts[st];
+            const isAct = currentStrandFilter.toUpperCase() === st.toUpperCase();
+            chipsContainer.innerHTML += `
+                <button class="px-4 py-2 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 ${isAct ? 'strand-filter-active' : 'border-outline-variant bg-surface text-on-surface hover:bg-surface-container-low'}" onclick="setStrandFilter('${st}')">
+                    ${st} <span class="bg-black/10 dark:bg-white/20 px-2 py-0.5 rounded-full text-[10px]">${count}</span>
+                </button>
+            `;
+        });
+
+        // Populate Sections dropdown (Tally Tab)
+        const secSelect = document.getElementById('filter-section');
+        const prevSec = secSelect.value;
+        secSelect.innerHTML = `<option value="ALL">All Sections</option>`;
+        Array.from(sectionsSet).sort().forEach(sec => {
+            secSelect.innerHTML += `<option value="${sec}" ${prevSec === sec ? 'selected' : ''}>Section ${sec}</option>`;
+        });
+
+        // Populate Strand dropdown (Records Tab)
+        const recStrandSelect = document.getElementById('records-filter-strand');
+        if (recStrandSelect) {
+            const prevRecStrand = recStrandSelect.value;
+            recStrandSelect.innerHTML = `<option value="ALL">All Strands (${allSubmissions.length})</option>`;
+            Object.keys(strandCounts).sort().forEach(st => {
+                recStrandSelect.innerHTML += `<option value="${st}" ${prevRecStrand === st ? 'selected' : ''}>${st} (${strandCounts[st]})</option>`;
+            });
+        }
+
+        // Populate Section dropdown (Records Tab)
+        const recSecSelect = document.getElementById('records-filter-section');
+        if (recSecSelect) {
+            const prevRecSec = recSecSelect.value;
+            recSecSelect.innerHTML = `<option value="ALL">All Sections</option>`;
+            Array.from(sectionsSet).sort().forEach(sec => {
+                recSecSelect.innerHTML += `<option value="${sec}" ${prevRecSec === sec ? 'selected' : ''}>Section ${sec}</option>`;
+            });
+        }
+    }
+
+    function setStrandFilter(strand) {
+        currentStrandFilter = strand;
+        setupFilters();
+        renderTallyView();
+    }
+
+    function setSectionFilter(sec) {
+        currentSectionFilter = sec;
+        renderTallyView();
+    }
+
+    function setSexFilter(sex) {
+        currentSexFilter = sex;
+        renderTallyView();
+    }
+
+    function getFilteredData() {
+        return allSubmissions.filter(s => {
+            if (currentStrandFilter !== 'ALL') {
+                const sStrand = (s.strand || '').trim().toUpperCase();
+                if (sStrand !== currentStrandFilter.toUpperCase()) return false;
+            }
+            if (currentSectionFilter !== 'ALL') {
+                const sSec = (s.section || '').trim();
+                if (sSec !== currentSectionFilter) return false;
+            }
+            if (currentSexFilter !== 'ALL') {
+                const sSex = (s.sex || '').trim().toLowerCase();
+                if (sSex !== currentSexFilter.toLowerCase()) return false;
+            }
+            return true;
+        });
+    }
+
+    // Render Tally View (Crosstab & Part III tallies)
+    function renderTallyView() {
+        const filtered = getFilteredData();
+        const totalFiltered = filtered.length;
+        const totalAll = allSubmissions.length;
+        const pct = totalAll > 0 ? ((totalFiltered / totalAll) * 100).toFixed(1) : '0';
+
+        // Update banner text
+        const strandLabel = currentStrandFilter === 'ALL' ? 'All Strands' : `Strand: ${currentStrandFilter}`;
+        const secLabel = currentSectionFilter === 'ALL' ? '' : ` | Section: ${currentSectionFilter}`;
+        const sexLabel = currentSexFilter === 'ALL' ? '' : ` | Sex: ${currentSexFilter}`;
+        document.getElementById('tally-status-text').textContent = `Showing: ${strandLabel}${secLabel}${sexLabel}`;
+        document.getElementById('tally-filtered-count').textContent = `${totalFiltered} Students (${pct}% of total)`;
+
+        // -------------------------------------------------------------
+        // PART II: 15 Statements Likert Tally Table
+        // -------------------------------------------------------------
+        const tbody = document.getElementById('tally-tbody');
+        tbody.innerHTML = '';
+
+        let overallSumOfMeans = 0;
+        let countStatementsWithData = 0;
+
+        statements.forEach((stmt, idx) => {
+            const qNum = idx + 1;
+            const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+            let totalRated = 0;
+
+            filtered.forEach(s => {
+                if (s.perceptions && s.perceptions[`q${qNum}`]) {
+                    const val = parseInt(s.perceptions[`q${qNum}`]);
+                    if (counts.hasOwnProperty(val)) {
+                        counts[val]++;
+                        totalRated++;
+                    }
+                }
+            });
+
+            const weightedSum = (counts[5]*5) + (counts[4]*4) + (counts[3]*3) + (counts[2]*2) + (counts[1]*1);
+            const mean = totalRated > 0 ? (weightedSum / totalRated).toFixed(2) : '0.00';
+            const interp = totalRated > 0 ? getVerbalDesc(mean) : '—';
+
+            if (totalRated > 0) {
+                overallSumOfMeans += parseFloat(mean);
+                countStatementsWithData++;
+            }
+
+            const p5 = totalRated > 0 ? ((counts[5] / totalRated) * 100).toFixed(0) : 0;
+            const p4 = totalRated > 0 ? ((counts[4] / totalRated) * 100).toFixed(0) : 0;
+            const p3 = totalRated > 0 ? ((counts[3] / totalRated) * 100).toFixed(0) : 0;
+            const p2 = totalRated > 0 ? ((counts[2] / totalRated) * 100).toFixed(0) : 0;
+            const p1 = totalRated > 0 ? ((counts[1] / totalRated) * 100).toFixed(0) : 0;
+
+            const pad = String(qNum).padStart(2, '0');
+
+            tbody.innerHTML += `
+                <tr class="hover:bg-surface-container-low/50 transition-colors">
+                    <td class="px-4 py-3 text-center font-bold text-primary opacity-60">${pad}</td>
+                    <td class="px-4 py-3">
+                        <span class="font-medium text-on-surface line-clamp-2">${stmt}</span>
+                    </td>
+                    <td class="px-3 py-3 text-center bg-[#6cf8bb]/10 font-bold text-secondary">
+                        ${counts[5]} <span class="text-[10px] opacity-75 font-normal block">(${p5}%)</span>
+                    </td>
+                    <td class="px-3 py-3 text-center bg-surface-container font-semibold">
+                        ${counts[4]} <span class="text-[10px] opacity-75 font-normal block">(${p4}%)</span>
+                    </td>
+                    <td class="px-3 py-3 text-center bg-tertiary-fixed/15 font-semibold text-tertiary">
+                        ${counts[3]} <span class="text-[10px] opacity-75 font-normal block">(${p3}%)</span>
+                    </td>
+                    <td class="px-3 py-3 text-center bg-error-container/10 font-semibold text-error">
+                        ${counts[2]} <span class="text-[10px] opacity-75 font-normal block">(${p2}%)</span>
+                    </td>
+                    <td class="px-3 py-3 text-center bg-error-container/20 font-bold text-error">
+                        ${counts[1]} <span class="text-[10px] opacity-75 font-normal block">(${p1}%)</span>
+                    </td>
+                    <td class="px-3 py-3 text-center font-bold text-on-surface">${totalRated}</td>
+                    <td class="px-3 py-3 text-center font-extrabold text-primary text-sm">${mean}</td>
+                    <td class="px-4 py-3 font-semibold text-on-surface-variant">
+                        <span class="px-2 py-0.5 rounded-md text-[11px] ${mean >= 4.5 ? 'bg-secondary-container text-on-secondary-container' : mean >= 3.5 ? 'bg-primary-fixed text-primary' : 'bg-surface-container text-on-surface'}">${interp}</span>
+                    </td>
+                </tr>
+            `;
+        });
+
+        const compositeMean = countStatementsWithData > 0 ? (overallSumOfMeans / countStatementsWithData).toFixed(2) : '—';
+        document.getElementById('tally-composite-mean').textContent = compositeMean !== '—' ? `${compositeMean} / 5.0` : '—';
+        document.getElementById('tally-part2-mean').textContent = compositeMean !== '—' ? `${compositeMean} / 5.0` : '—';
+        document.getElementById('tally-composite-desc').textContent = compositeMean !== '—' ? getVerbalDesc(compositeMean) : '—';
+
+        // -------------------------------------------------------------
+        // PART III TALLIES
+        // -------------------------------------------------------------
+        // 1. Frequency
+        const freqCounts = { "Always": 0, "Often": 0, "Sometimes": 0, "Rarely": 0, "Never": 0 };
+        filtered.forEach(s => {
+            if (s.frequency && freqCounts.hasOwnProperty(s.frequency)) freqCounts[s.frequency]++;
+        });
+        const freqContainer = document.getElementById('tally-frequency-bars');
+        freqContainer.innerHTML = '';
+        Object.entries(freqCounts).forEach(([freq, cnt]) => {
+            const pctVal = totalFiltered > 0 ? Math.round((cnt / totalFiltered) * 100) : 0;
+            freqContainer.innerHTML += `
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs font-semibold">
+                        <span>${freq}</span>
+                        <span class="text-primary font-bold">${cnt} <span class="font-normal opacity-70">(${pctVal}%)</span></span>
+                    </div>
+                    <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                        <div class="h-full bg-primary rounded-full bar-fill" style="width: ${pctVal}%"></div>
+                    </div>
+                </div>`;
+        });
+
+        // 2. Usages
+        const usageList = [
+            "Answering assignments",
+            "Generating ideas",
+            "Summarizing information",
+            "Explaining lessons",
+            "Writing activities",
+            "Reviewing lessons",
+            "Researching information"
+        ];
+        const usageCounts = {};
+        usageList.forEach(u => usageCounts[u] = 0);
+        let otherUsageCount = 0;
+
+        filtered.forEach(s => {
+            if (s.usages && Array.isArray(s.usages)) {
+                s.usages.forEach(u => {
+                    if (usageCounts.hasOwnProperty(u)) usageCounts[u]++;
+                });
+            }
+            if (s.otherUsage && s.otherUsage.trim()) otherUsageCount++;
+        });
+
+        const usagesContainer = document.getElementById('tally-usages-bars');
+        usagesContainer.innerHTML = '';
+        const sortedUsages = Object.entries(usageCounts).sort((a,b) => b[1]-a[1]);
+        sortedUsages.forEach(([purpose, cnt]) => {
+            const pctVal = totalFiltered > 0 ? Math.round((cnt / totalFiltered) * 100) : 0;
+            usagesContainer.innerHTML += `
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs font-semibold">
+                        <span class="line-clamp-1">${purpose}</span>
+                        <span class="text-primary font-bold shrink-0">${cnt} <span class="font-normal opacity-70">(${pctVal}%)</span></span>
+                    </div>
+                    <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                        <div class="h-full bg-secondary rounded-full bar-fill" style="width: ${pctVal}%"></div>
+                    </div>
+                </div>`;
+        });
+        if (otherUsageCount > 0) {
+            usagesContainer.innerHTML += `
+                <div class="pt-1 text-xs text-on-surface-variant font-medium">
+                    Other specified uses: <strong class="text-primary">${otherUsageCount} students</strong>
+                </div>`;
+        }
+
+        // 4. Daily Time Spent
+        const timeOrder = ["Less than 30 minutes", "30 minutes to 1 hour", "1–2 hours", "More than 2 hours"];
+        const timeCounts = {};
+        timeOrder.forEach(t => timeCounts[t] = 0);
+        filtered.forEach(s => {
+            if (s.timeSpent && timeCounts.hasOwnProperty(s.timeSpent)) timeCounts[s.timeSpent]++;
+        });
+        const timeContainer = document.getElementById('tally-time-bars');
+        timeContainer.innerHTML = '';
+        timeOrder.forEach(t => {
+            const cnt = timeCounts[t];
+            const pctVal = totalFiltered > 0 ? Math.round((cnt / totalFiltered) * 100) : 0;
+            timeContainer.innerHTML += `
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs font-semibold">
+                        <span>${t}</span>
+                        <span class="text-primary font-bold">${cnt} <span class="font-normal opacity-70">(${pctVal}%)</span></span>
+                    </div>
+                    <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                        <div class="h-full bg-tertiary rounded-full bar-fill" style="width: ${pctVal}%"></div>
+                    </div>
+                </div>`;
+        });
+
+        // 3. Most often tasks list
+        const tasksContainer = document.getElementById('tally-tasks-list');
+        tasksContainer.innerHTML = '';
+        const submittedTasks = filtered.map(s => (s.mostUsedTask || '').trim()).filter(t => t && t.toLowerCase() !== 'none');
+        if (submittedTasks.length === 0) {
+            tasksContainer.innerHTML = `<p class="text-xs text-on-surface-variant italic col-span-2">No specific tasks written for this group.</p>`;
+        } else {
+            submittedTasks.slice(0, 16).forEach(task => {
+                tasksContainer.innerHTML += `
+                    <div class="p-2.5 rounded-lg bg-surface border border-outline-variant/60 text-xs font-medium text-on-surface flex items-start gap-2">
+                        <span class="material-symbols-outlined text-[16px] text-primary mt-0.5 shrink-0">chat_bubble</span>
+                        <span>${task}</span>
+                    </div>`;
+            });
+        }
+    }
+
+    // Export Tally Table to CSV
+    function exportTallyToCSV() {
+        const filtered = getFilteredData();
+        const total = filtered.length;
+        const strandLabel = currentStrandFilter === 'ALL' ? 'All_Strands' : currentStrandFilter;
+
+        let csv = `PART II: CHATGPT ASSISTANCE IN ACADEMIC TASKS - STATISTICAL TALLY REPORT\n`;
+        csv += `Isolated Group: ${strandLabel}\n`;
+        csv += `Total Respondents: ${total}\n`;
+        csv += `Date Generated: ${new Date().toLocaleDateString()}\n\n`;
+        csv += `Item #,Statement,5 (Strongly Agree),4 (Agree),3 (Neutral),2 (Disagree),1 (Strongly Disagree),Total,Weighted Mean,Verbal Interpretation\n`;
+
+        let overallSum = 0;
+        let countItems = 0;
+
+        statements.forEach((stmt, idx) => {
+            const qNum = idx + 1;
+            const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+            let totalRated = 0;
+
+            filtered.forEach(s => {
+                if (s.perceptions && s.perceptions[`q${qNum}`]) {
+                    const val = parseInt(s.perceptions[`q${qNum}`]);
+                    if (counts.hasOwnProperty(val)) {
+                        counts[val]++;
+                        totalRated++;
+                    }
+                }
+            });
+
+            const weightedSum = (counts[5]*5) + (counts[4]*4) + (counts[3]*3) + (counts[2]*2) + (counts[1]*1);
+            const mean = totalRated > 0 ? (weightedSum / totalRated).toFixed(2) : '0.00';
+            const interp = totalRated > 0 ? getVerbalDesc(mean) : '—';
+
+            if (totalRated > 0) {
+                overallSum += parseFloat(mean);
+                countItems++;
+            }
+
+            const cleanStmt = `"${stmt.replace(/"/g, '""')}"`;
+            csv += `${qNum},${cleanStmt},${counts[5]},${counts[4]},${counts[3]},${counts[2]},${counts[1]},${totalRated},${mean},${interp}\n`;
+        });
+
+        const composite = countItems > 0 ? (overallSum / countItems).toFixed(2) : '0.00';
+        csv += `\nOVERALL COMPOSITE MEAN,,,,,,,${composite},${getVerbalDesc(composite)}\n`;
+
+        // Download trigger
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', `ChatGPT_Assistance_Tally_${strandLabel}_${Date.now()}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // Strand badge color
+    function strandBadge(strand) {
+        const map = {
+            'STEM': 'bg-secondary-container/20 text-on-secondary-container',
+            'HUMSS': 'bg-tertiary-fixed/40 text-on-tertiary-fixed-variant',
+            'ABM': 'bg-outline-variant/30 text-on-surface-variant',
+            'GAS': 'bg-primary-fixed/40 text-on-primary-fixed-variant',
+            'TVL': 'bg-error-container/30 text-on-error-container'
+        };
+        return map[strand] || 'bg-surface-container text-on-surface-variant';
+    }
+
+    // --- Records Tab Display Mode & Filtering ---
+    let recordsDisplayMode = 'list'; // 'list' or 'grouped'
+    let recordsStrandFilter = 'ALL';
+    let recordsSectionFilter = 'ALL';
+
+    function setRecordsDisplayMode(mode) {
+        recordsDisplayMode = mode;
+        const listBtn = document.getElementById('records-view-list');
+        const groupedBtn = document.getElementById('records-view-grouped');
+        const tableContainer = document.getElementById('records-table-container');
+        const groupedContainer = document.getElementById('records-grouped-container');
+        const paginationBox = document.getElementById('pagination-info').parentElement;
+
+        if (mode === 'grouped') {
+            groupedBtn.className = "px-3 py-1.5 rounded-lg transition-all tab-active flex items-center gap-1";
+            listBtn.className = "px-3 py-1.5 rounded-lg transition-all text-on-surface-variant hover:text-primary flex items-center gap-1";
+            tableContainer.classList.add('hidden');
+            groupedContainer.classList.remove('hidden');
+            if (paginationBox) paginationBox.classList.add('hidden');
+            renderGroupedRecords();
+        } else {
+            listBtn.className = "px-3 py-1.5 rounded-lg transition-all tab-active flex items-center gap-1";
+            groupedBtn.className = "px-3 py-1.5 rounded-lg transition-all text-on-surface-variant hover:text-primary flex items-center gap-1";
+            groupedContainer.classList.add('hidden');
+            tableContainer.classList.remove('hidden');
+            if (paginationBox) paginationBox.classList.remove('hidden');
+            renderTable();
+        }
+    }
+
+    function applyRecordsFilters() {
+        const strandSel = document.getElementById('records-filter-strand');
+        const secSel = document.getElementById('records-filter-section');
+        recordsStrandFilter = strandSel ? strandSel.value : 'ALL';
+        recordsSectionFilter = secSel ? secSel.value : 'ALL';
+        
+        const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
+
+        filteredSubmissions = allSubmissions.filter(s => {
+            // Strand filter
+            if (recordsStrandFilter !== 'ALL') {
+                const sStrand = (s.strand || '').trim().toUpperCase();
+                if (sStrand !== recordsStrandFilter.toUpperCase()) return false;
+            }
+            // Section filter
+            if (recordsSectionFilter !== 'ALL') {
+                const sSec = (s.section || '').trim();
+                if (sSec !== recordsSectionFilter) return false;
+            }
+            // Search query
+            if (q) {
+                const matchName = s.name && s.name.toLowerCase().includes(q);
+                const matchStrand = s.strand && s.strand.toLowerCase().includes(q);
+                const matchSec = s.section && s.section.toLowerCase().includes(q);
+                const matchFreq = s.frequency && s.frequency.toLowerCase().includes(q);
+                const matchTask = s.mostUsedTask && s.mostUsedTask.toLowerCase().includes(q);
+                if (!matchName && !matchStrand && !matchSec && !matchFreq && !matchTask) return false;
+            }
+            return true;
+        });
+
+        currentPage = 0;
+        if (recordsDisplayMode === 'grouped') {
+            renderGroupedRecords();
+        } else {
+            renderTable();
+        }
+    }
+
+    // Render Grouped View (Separated by Strand and Section)
+    function renderGroupedRecords() {
+        const container = document.getElementById('records-grouped-container');
+        if (!container) return;
+
+        if (filteredSubmissions.length === 0) {
+            container.innerHTML = `
+                <div class="p-8 text-center bg-surface rounded-xl border border-outline-variant/60">
+                    <span class="material-symbols-outlined text-4xl text-outline mb-2">person_off</span>
+                    <p class="text-sm font-semibold text-on-surface">No student submissions match this filter.</p>
+                    <p class="text-xs text-on-surface-variant mt-1">Try resetting the Strand, Section, or Search box.</p>
+                </div>
+            `;
+            return;
+        }
+
+        // Group filtered submissions by Strand -> Section
+        const groups = {};
+        filteredSubmissions.forEach(s => {
+            const strand = (s.strand || 'Unspecified').trim();
+            const section = (s.section || 'Unspecified').trim();
+            if (!groups[strand]) groups[strand] = {};
+            if (!groups[strand][section]) groups[strand][section] = [];
+            groups[strand][section].push(s);
+        });
+
+        let html = '';
+        const sortedStrands = Object.keys(groups).sort();
+
+        sortedStrands.forEach(strand => {
+            const sections = groups[strand];
+            const sortedSections = Object.keys(sections).sort();
+            const totalInStrand = Object.values(sections).reduce((acc, arr) => acc + arr.length, 0);
+
+            html += `
+                <div class="bg-surface rounded-2xl border border-outline-variant/80 shadow-sm overflow-hidden">
+                    <!-- Strand Header Banner -->
+                    <div class="px-5 py-3.5 bg-surface-container flex items-center justify-between border-b border-outline-variant/60">
+                        <div class="flex items-center gap-2.5">
+                            <span class="px-2.5 py-1 rounded-lg ${strandBadge(strand)} text-xs font-bold uppercase tracking-wider">${strand}</span>
+                            <span class="text-xs font-bold text-on-surface">${totalInStrand} Student${totalInStrand === 1 ? '' : 's'}</span>
+                        </div>
+                        <span class="text-xs text-on-surface-variant font-medium">${sortedSections.length} Section${sortedSections.length === 1 ? '' : 's'}</span>
+                    </div>
+
+                    <div class="p-4 space-y-4">
+            `;
+
+            sortedSections.forEach(section => {
+                const students = sections[section];
+                html += `
+                    <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/50 overflow-hidden">
+                        <div class="px-4 py-2.5 bg-surface-container-low/70 flex items-center justify-between border-b border-outline-variant/40">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-[18px]">class</span>
+                                <span class="text-xs font-bold text-on-surface">Section: <span class="text-primary">${section}</span></span>
+                            </div>
+                            <span class="text-[11px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">${students.length} student${students.length === 1 ? '' : 's'}</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs min-w-[650px]">
+                                <thead class="bg-surface-container-low/30 text-on-surface-variant uppercase text-[10px] font-bold">
+                                    <tr>
+                                        <th class="px-4 py-2">Student Name</th>
+                                        <th class="px-3 py-2">Age / Sex</th>
+                                        <th class="px-3 py-2">Frequency</th>
+                                        <th class="px-3 py-2">Time Spent</th>
+                                        <th class="px-3 py-2">Most Used Task</th>
+                                        <th class="px-3 py-2 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-outline-variant/30">
+                `;
+
+                students.forEach((s, idx) => {
+                    const displayName = s.name && s.name.trim() ? s.name : 'Anonymous';
+                    const initials = displayName !== 'Anonymous' ? displayName.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase() : 'AN';
+                    const sexDisp = (s.sex || '—').replace(/_/g, ' ');
+
+                    html += `
+                        <tr class="hover:bg-surface-container-low/40 transition-colors">
+                            <td class="px-4 py-2.5">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-[11px] shrink-0">${initials}</div>
+                                    <span class="font-semibold text-on-surface whitespace-nowrap">${displayName}</span>
+                                </div>
+                            </td>
+                            <td class="px-3 py-2.5 text-on-surface-variant whitespace-nowrap capitalize">${s.age || '—'} / ${sexDisp}</td>
+                            <td class="px-3 py-2.5 font-bold text-primary whitespace-nowrap">${s.frequency || '—'}</td>
+                            <td class="px-3 py-2.5 text-on-surface-variant whitespace-nowrap">${s.timeSpent || '—'}</td>
+                            <td class="px-3 py-2.5 text-on-surface">
+                                <span class="line-clamp-1 max-w-[220px]" title="${s.mostUsedTask || '—'}">${s.mostUsedTask || '—'}</span>
+                            </td>
+                            <td class="px-3 py-2.5 text-right whitespace-nowrap">
+                                <button class="px-2.5 py-1 rounded-lg border border-primary text-primary text-[11px] font-bold hover:bg-primary hover:text-on-primary transition-colors inline-flex items-center gap-1" onclick="showDetails('${s.id}')">
+                                    <span class="material-symbols-outlined text-[14px]">visibility</span>
+                                    Details
+                                </button>
+                                <button class="px-2.5 py-1 rounded-lg border border-error text-error text-[11px] font-bold hover:bg-error hover:text-on-error transition-colors inline-flex items-center gap-1 ml-1.5" onclick="deleteSingleSubmission('${s.id}')">
+                                    <span class="material-symbols-outlined text-[14px]">delete</span>
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    // Individual Submissions Table
+    function renderTable() {
+        const tbody = document.getElementById('submissions-tbody');
+        const start = currentPage * PAGE_SIZE;
+        const end = Math.min(start + PAGE_SIZE, filteredSubmissions.length);
+        const page = filteredSubmissions.slice(start, end);
+
+        if (page.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-on-surface-variant">No submissions found.</td></tr>`;
+        } else {
+            tbody.innerHTML = page.map((s, i) => {
+                const displayName = s.name && s.name.trim() ? s.name : 'Anonymous';
+                const initials = displayName !== 'Anonymous' ? displayName.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase() : 'AN';
+                const colors = ['bg-primary/10 text-primary', 'bg-tertiary/10 text-tertiary', 'bg-secondary/10 text-secondary'];
+                const color = colors[(start + i) % colors.length];
+                return `
+                    <tr class="hover:bg-surface-container-low/50 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full ${color} flex items-center justify-center font-bold text-xs shrink-0">${initials}</div>
+                                <span class="font-medium text-on-surface whitespace-nowrap">${displayName}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4"><span class="px-2 py-1 rounded-md ${strandBadge(s.strand)} text-xs font-bold uppercase">${s.strand || '—'}</span></td>
+                        <td class="px-6 py-4"><span class="text-body-sm text-on-surface font-semibold">${s.section || '—'}</span></td>
+                        <td class="px-6 py-4"><span class="text-body-sm text-on-surface font-semibold text-primary">${s.frequency || '—'}</span></td>
+                        <td class="px-6 py-4"><span class="text-body-sm text-on-surface-variant">${s.timeSpent || '—'}</span></td>
+                        <td class="px-6 py-4 text-right whitespace-nowrap">
+                            <button class="px-3 py-1 rounded-lg border border-primary text-primary font-label-md hover:bg-primary hover:text-on-primary transition-colors inline-flex items-center gap-1" onclick="showDetails('${s.id}')">
+                                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                                Details
+                            </button>
+                            <button class="px-3 py-1 rounded-lg border border-error text-error font-label-md hover:bg-error hover:text-on-error transition-colors inline-flex items-center gap-1 ml-2" onclick="deleteSingleSubmission('${s.id}')">
+                                <span class="material-symbols-outlined text-[16px]">delete</span>
+                                Delete
+                            </button>
+                        </td>
+                    </tr>`;
+            }).join('');
+        }
+
+        const totalShown = filteredSubmissions.length;
+        document.getElementById('pagination-info').textContent = `Showing ${Math.min(start + 1, totalShown)}–${end} of ${totalShown} respondents`;
+        document.getElementById('btn-prev-page').disabled = currentPage === 0;
+        document.getElementById('btn-next-page').disabled = end >= totalShown;
+    }
+
+    // Pagination
+    document.getElementById('btn-prev-page').addEventListener('click', () => {
+        if (currentPage > 0) { currentPage--; renderTable(); }
+    });
+    document.getElementById('btn-next-page').addEventListener('click', () => {
+        if ((currentPage + 1) * PAGE_SIZE < filteredSubmissions.length) { currentPage++; renderTable(); }
+    });
+
+    // Search input (triggers unified filter)
+    document.getElementById('search-input').addEventListener('input', () => {
+        applyRecordsFilters();
+    });
+
+    window.deleteSingleSubmission = async function(id) {
+        const s = allSubmissions.find(sub => sub.id === id);
+        if (!s) return;
+        const nameDisp = s.name && s.name.trim() ? s.name : 'Anonymous Student';
+        if (confirm(`Are you sure you want to delete the submission of "${nameDisp}"?`)) {
+            await SurveyDB.deleteSubmission(id);
+            await loadData();
+        }
+    };
+
+    // Details Modal
+    window.showDetails = function(id) {
+        const s = allSubmissions.find(sub => sub.id === id);
+        if (!s) return;
+
+        let perceptionsHtml = '';
+        let totalScore = 0;
+        let count = 0;
+
+        if (s.perceptions) {
+            statements.forEach((title, idx) => {
+                const score = s.perceptions[`q${idx + 1}`] || 0;
+                if (score > 0) {
+                    totalScore += score;
+                    count++;
+                }
+                perceptionsHtml += `
+                    <div class="flex justify-between items-center text-xs py-1.5 border-b border-outline-variant/30">
+                        <span class="text-on-surface-variant flex-1 pr-2 line-clamp-1">${idx + 1}. ${title}</span>
+                        <div class="flex items-center gap-1 shrink-0">
+                            <span class="font-bold text-primary mr-1">${score}/5</span>
+                            <div class="flex gap-0.5">${[1,2,3,4,5].map(n => `<div class="w-3 h-3 rounded-full ${n <= score ? 'bg-primary' : 'bg-surface-container'}"></div>`).join('')}</div>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        const studentMean = count > 0 ? (totalScore / count).toFixed(2) : '—';
+        const displayName = s.name && s.name.trim() ? s.name : 'Anonymous';
+
+        document.getElementById('details-content').innerHTML = `
+            <div class="bg-surface-container-low p-3.5 rounded-xl">
+                <p class="text-xs font-bold text-primary uppercase tracking-wider mb-2">Part I. Respondent Profile</p>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div><span class="text-outline font-bold">ID:</span> <span class="font-medium text-on-surface">${s.id}</span></div>
+                    <div><span class="text-outline font-bold">Date:</span> <span class="font-medium text-on-surface">${new Date(s.timestamp).toLocaleDateString()}</span></div>
+                    <div><span class="text-outline font-bold">Name:</span> <span class="font-medium text-on-surface">${displayName}</span></div>
+                    <div><span class="text-outline font-bold">Age:</span> <span class="font-medium text-on-surface">${s.age || '—'}</span></div>
+                    <div><span class="text-outline font-bold">Sex:</span> <span class="font-medium text-on-surface capitalize">${(s.sex||'—').replace(/_/g,' ')}</span></div>
+                    <div><span class="text-outline font-bold">Strand:</span> <span class="font-medium text-on-surface font-bold text-primary">${s.strand || '—'}</span></div>
+                    <div class="col-span-2"><span class="text-outline font-bold">Section:</span> <span class="font-medium text-on-surface">${s.section || '—'}</span></div>
+                </div>
+            </div>
+
+            <div class="bg-surface-container-low p-3.5 rounded-xl">
+                <p class="text-xs font-bold text-primary uppercase tracking-wider mb-2">Part III. Students’ Use of ChatGPT</p>
+                <div class="space-y-1.5 text-xs">
+                    <p><span class="text-outline font-bold">1. Frequency:</span> <span class="font-semibold text-primary">${s.frequency || '—'}</span></p>
+                    <p><span class="text-outline font-bold">2. Purposes:</span> <span class="font-medium text-on-surface">${(s.usages && s.usages.length) ? s.usages.join(', ') : '—'}${s.otherUsage ? ` (Other: ${s.otherUsage})` : ''}</span></p>
+                    <p><span class="text-outline font-bold">3. Task used most often:</span> <span class="block bg-surface p-2 rounded-lg border border-outline-variant/60 font-medium text-on-surface mt-1">${s.mostUsedTask || '—'}</span></p>
+                    <p class="pt-1"><span class="text-outline font-bold">4. Daily Time Spent:</span> <span class="font-medium text-on-surface">${s.timeSpent || '—'}</span></p>
+                </div>
+            </div>
+
+            <div class="bg-surface-container-low p-3.5 rounded-xl">
+                <div class="flex justify-between items-center mb-2">
+                    <p class="text-xs font-bold text-primary uppercase tracking-wider">Part II. ChatGPT Assistance (15 Items)</p>
+                    <span class="text-xs font-bold bg-primary/10 text-primary px-2.5 py-0.5 rounded-full">Mean: ${studentMean} / 5.0 (${getVerbalDesc(studentMean)})</span>
+                </div>
+                <div class="space-y-1">
+                    ${perceptionsHtml || '<p class="text-xs text-on-surface-variant italic">No data</p>'}
+                </div>
+            </div>
+        `;
+        document.getElementById('detailsModal').classList.remove('hidden');
+    }
+
+    // Close modal on outside click
+    document.getElementById('detailsModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('detailsModal')) {
+            document.getElementById('detailsModal').classList.add('hidden');
+        }
+    });
+
+    // Always load data immediately on page open
+    loadData().then(() => {
+        // After initial load, also subscribe to real-time updates
+        SurveyDB.subscribeToUpdates(() => {
+            allSubmissions = SurveyDB.getSubmissions();
+            const q = document.getElementById('search-input').value.toLowerCase().trim();
+            filteredSubmissions = q
+                ? allSubmissions.filter(s =>
+                    (s.name && s.name.toLowerCase().includes(q)) ||
+                    (s.strand && s.strand.toLowerCase().includes(q)) ||
+                    (s.section && s.section.toLowerCase().includes(q)) ||
+                    (s.frequency && s.frequency.toLowerCase().includes(q)) ||
+                    (s.mostUsedTask && s.mostUsedTask.toLowerCase().includes(q))
+                  )
+                : [...allSubmissions];
+            renderStats();
+            setupFilters();
+            renderTallyView();
+            applyRecordsFilters();
+            updateLockUI();
+        }).catch(err => {
+            console.warn('Real-time subscription failed:', err);
+        });
+    });
+</script>
+</body>
+</html>

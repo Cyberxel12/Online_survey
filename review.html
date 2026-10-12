@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Review Your Answers - AI Impact Study</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="survey_db.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "primary-container": "#2563eb",
+                    "on-primary-container": "#eeefff",
+                    "background": "#f8f9ff",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-tertiary-fixed": "#2a1700",
+                    "surface-variant": "#d3e4fe",
+                    "surface-tint": "#0053db",
+                    "on-secondary": "#ffffff",
+                    "primary": "#004ac6",
+                    "on-secondary-fixed-variant": "#005236",
+                    "on-background": "#0b1c30",
+                    "surface-container": "#e5eeff",
+                    "on-secondary-container": "#00714d",
+                    "surface-container-low": "#eff4ff",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-tertiary-container": "#ffeedd",
+                    "on-secondary-fixed": "#002113",
+                    "on-primary-fixed": "#00174b",
+                    "inverse-primary": "#b4c5ff",
+                    "on-error": "#ffffff",
+                    "tertiary": "#784b00",
+                    "outline": "#737686",
+                    "inverse-surface": "#213145",
+                    "surface-dim": "#cbdbf5",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "surface": "#f8f9ff",
+                    "secondary-fixed": "#6ffbbe",
+                    "secondary-container": "#6cf8bb",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#4edea3",
+                    "surface-container-high": "#dce9ff",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "primary-fixed": "#dbe1ff",
+                    "on-surface": "#0b1c30",
+                    "outline-variant": "#c3c6d7",
+                    "secondary": "#006c49",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-container": "#996100",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-surface-variant": "#434655",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary-fixed": "#ffddb8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "24px",
+                    "stack-lg": "40px",
+                    "stack-sm": "12px",
+                    "container-padding": "20px",
+                    "gutter": "16px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-sm": ["Inter"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "label-lg": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body { background-color: #f8f9ff; color: #0b1c30; -webkit-font-smoothing: antialiased; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #dbe1ff; border-radius: 10px; }
+</style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden min-h-screen flex flex-col">
+
+<!-- Top Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface border-b border-outline-variant shadow-sm h-16">
+<div class="flex items-center px-container-padding h-full w-full max-w-7xl mx-auto justify-between">
+  <div class="flex items-center gap-3">
+    <div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container flex items-center justify-center border-2 border-surface-container-highest">
+      <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBe5pxX1VTZOzIaNQNdwQOXWWwosYGmMTfEFQ8lwVUFIpfb75Is2ZxCmO_FLkW-DD8Ccxtb1ioXGNTEkzKv_iqHELGqCxVIrHaOwjehKvs_bY4dfKNYuJhOWYQeUdNmgGwWpuIhWw6okSlzd9Y-WbyHu7P-pmbAai1wgHhQR1GFCypxmhCHHN3ivc3XwEHN9vI--Tgv2sWutykty9Ver2cvwVajVaHcjhJTU5TNNgVnHiApbKCqCPnm" alt="Mascot"/>
+    </div>
+    <h1 class="font-headline-sm text-headline-sm text-primary font-bold">Review Your Answers</h1>
+  </div>
+  <div class="hidden md:flex items-center gap-2">
+    <div class="px-3 py-1 bg-surface-container rounded-full flex items-center gap-2">
+      <span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+      <span class="font-label-lg text-label-lg text-on-surface">Final Step</span>
+    </div>
+  </div>
+</div>
+<div class="absolute bottom-0 left-0 w-full h-[3px] bg-primary-fixed">
+  <div class="h-full bg-primary transition-all duration-1000 ease-out w-[100%] shadow-[0_0_8px_rgba(0,74,198,0.4)]"></div>
+</div>
+</header>
+
+<!-- Main Content -->
+<main class="flex-grow pt-24 pb-32 px-container-padding w-full max-w-4xl mx-auto">
+<div class="flex flex-col gap-stack-md">
+  <div class="flex flex-col gap-2 mb-2">
+    <h2 class="font-headline-md text-headline-md text-on-background font-bold">Submission Summary</h2>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Please review your responses before finalizing. You can return to any section to make changes.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+
+    <!-- PART I: Respondent Profile -->
+    <section class="md:col-span-12 bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-md shadow-sm">
+      <div class="flex items-center justify-between mb-stack-sm pb-2 border-b border-outline-variant/40">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">account_circle</span>
+          <h3 class="font-label-lg text-label-lg font-bold text-on-background">Part I. Respondent's Profile</h3>
+        </div>
+        <button class="text-primary font-label-md text-label-md hover:underline font-bold flex items-center gap-1" onclick="window.location.href='profile.html'">
+          <span class="material-symbols-outlined text-[16px]">edit</span>
+          Edit
+        </button>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-stack-sm pt-1">
+        <div class="flex flex-col"><span class="text-[11px] uppercase tracking-wider text-outline font-bold">Name</span><span class="font-body-md text-body-md text-on-surface font-semibold" id="r-name">—</span></div>
+        <div class="flex flex-col"><span class="text-[11px] uppercase tracking-wider text-outline font-bold">Age</span><span class="font-body-md text-body-md text-on-surface font-semibold" id="r-age">—</span></div>
+        <div class="flex flex-col"><span class="text-[11px] uppercase tracking-wider text-outline font-bold">Sex</span><span class="font-body-md text-body-md text-on-surface font-semibold" id="r-sex">—</span></div>
+        <div class="flex flex-col"><span class="text-[11px] uppercase tracking-wider text-outline font-bold">Strand</span><span class="font-body-md text-body-md text-on-surface font-semibold" id="r-strand">—</span></div>
+        <div class="flex flex-col"><span class="text-[11px] uppercase tracking-wider text-outline font-bold">Section</span><span class="font-body-md text-body-md text-on-surface font-semibold" id="r-section">—</span></div>
+      </div>
+    </section>
+
+    <!-- PART II: ChatGPT Assistance in Academic Tasks -->
+    <section class="md:col-span-12 bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-md shadow-sm">
+      <div class="flex items-center justify-between mb-stack-sm pb-2 border-b border-outline-variant/40">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">psychology</span>
+          <h3 class="font-label-lg text-label-lg font-bold text-on-background">PART II. ChatGPT Assistance in Academic Tasks</h3>
+        </div>
+        <button class="text-primary font-label-md text-label-md hover:underline font-bold flex items-center gap-1" onclick="window.location.href='perceptions.html'">
+          <span class="material-symbols-outlined text-[16px]">edit</span>
+          Edit
+        </button>
+      </div>
+      
+      <!-- Average Score Banner -->
+      <div class="bg-surface-container-low rounded-xl p-4 mb-4 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-bold text-outline uppercase tracking-wider">Overall Mean Rating</span>
+          <div class="flex items-baseline gap-2">
+            <span class="text-headline-md font-headline-md font-bold text-primary" id="r-mean-score">—</span>
+            <span class="text-sm font-semibold text-on-surface-variant" id="r-mean-label">—</span>
+          </div>
+        </div>
+        <div class="text-right">
+          <span class="text-xs text-on-surface-variant font-medium">15 of 15 statements rated</span>
+        </div>
+      </div>
+
+      <!-- Statements Detailed Ratings List -->
+      <div class="space-y-3 max-h-72 overflow-y-auto custom-scrollbar pr-2" id="perceptions-container">
+        <p class="text-body-sm text-on-surface-variant italic">No answers recorded yet.</p>
+      </div>
+    </section>
+
+    <!-- PART III: Students' Use of ChatGPT -->
+    <section class="md:col-span-12 bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-md shadow-sm">
+      <div class="flex items-center justify-between mb-stack-sm pb-2 border-b border-outline-variant/40">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">smart_toy</span>
+          <h3 class="font-label-lg text-label-lg font-bold text-on-background">PART III. Students’ Use of ChatGPT</h3>
+        </div>
+        <button class="text-primary font-label-md text-label-md hover:underline font-bold flex items-center gap-1" onclick="window.location.href='usage.html'">
+          <span class="material-symbols-outlined text-[16px]">edit</span>
+          Edit
+        </button>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter pt-1">
+        <div class="flex flex-col gap-1.5">
+          <span class="text-[11px] uppercase tracking-wider text-outline font-bold">1. Frequency</span>
+          <div class="flex items-center gap-1.5 text-primary">
+            <span class="material-symbols-outlined text-[18px]">calendar_month</span>
+            <span class="font-body-md text-body-md font-semibold" id="r-frequency">—</span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <span class="text-[11px] uppercase tracking-wider text-outline font-bold">4. Daily Time Spent</span>
+          <div class="flex items-center gap-1.5 text-primary">
+            <span class="material-symbols-outlined text-[18px]">schedule</span>
+            <span class="font-body-md text-body-md font-semibold" id="r-time">—</span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1.5 lg:col-span-2">
+          <span class="text-[11px] uppercase tracking-wider text-outline font-bold">2. What you use ChatGPT for</span>
+          <p class="font-body-sm text-body-sm text-on-surface leading-snug" id="r-usages">—</p>
+        </div>
+        <div class="flex flex-col gap-1.5 lg:col-span-4">
+          <span class="text-[11px] uppercase tracking-wider text-outline font-bold">3. Task Used Most Often</span>
+          <p class="font-body-md text-body-md text-on-surface font-medium bg-surface-container-low p-2.5 rounded-lg border border-outline-variant/50" id="r-most-task">—</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ready to submit banner -->
+    <section class="md:col-span-12 overflow-hidden relative bg-primary rounded-xl p-stack-md text-on-primary">
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex flex-col gap-1">
+          <h3 class="font-headline-sm text-headline-sm font-bold">Ready to submit?</h3>
+          <p class="font-body-sm text-body-sm opacity-90 max-w-lg">Your data directly helps our study understand how ChatGPT is assisting Grade 12 students in academic tasks.</p>
+        </div>
+        <div class="flex items-center gap-2 bg-on-primary/10 rounded-full pl-2 pr-4 py-1 self-start md:self-auto border border-on-primary/20">
+          <span class="material-symbols-outlined text-[18px]">info</span>
+          <span class="font-label-md text-label-md font-semibold" id="badge-text">Checking fields...</span>
+        </div>
+      </div>
+      <div class="absolute top-0 right-0 w-64 h-full opacity-10 pointer-events-none">
+        <svg class="w-full h-full" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M44.7,-76.4C58.1,-69.2,69.2,-58.1,77.4,-44.7C85.5,-31.4,90.7,-15.7,89.5,-0.7C88.3,14.3,80.7,28.6,71.5,41C62.3,53.4,51.5,63.9,38.6,71.2C25.7,78.5,10.6,82.5,-4.4,90.1C-19.4,97.7,-34.3,108.9,-46.8,106.6C-59.4,104.3,-69.6,88.5,-76.8,73.5C-84.1,58.5,-88.4,44.3,-91.3,29.9C-94.2,15.5,-95.7,0.8,-92.4,-13.2C-89.1,-27.2,-81.1,-40.5,-70.7,-51.1C-60.3,-61.7,-47.5,-69.6,-34.4,-77.2C-21.3,-84.8,-7.9,-92.1,4.4,-99.7C16.6,-107.3,31.3,-83.6,44.7,-76.4Z" fill="#FFFFFF" transform="translate(100 100)"/>
+        </svg>
+      </div>
+    </section>
+
+  </div>
+</div>
+</main>
+
+<!-- Developer Footer -->
+<div class="pb-28 text-center">
+  <p class="text-xs text-on-surface-variant/60 font-semibold py-4 border-t border-outline-variant/20">Developed by Densio Cute AI, Student of ZDSPGC 2026</p>
+</div>
+
+<!-- Bottom Actions -->
+<footer class="fixed bottom-0 w-full bg-surface-container-lowest z-50 px-container-padding py-stack-md flex justify-end gap-4 border-t border-outline-variant/30">
+<div class="flex items-center gap-gutter w-full md:w-auto justify-between md:justify-end">
+  <button class="flex-grow md:flex-none px-6 py-3 rounded-full border-2 border-outline-variant text-on-surface font-label-lg text-label-lg hover:bg-surface-container-low transition-all active:scale-95" onclick="window.location.href='usage.html'">
+    <span class="material-symbols-outlined text-[18px] mr-1 align-middle">arrow_back</span>
+    Back to Part III
+  </button>
+  <button class="flex-grow md:flex-none px-8 py-3 rounded-full bg-primary text-on-primary font-label-lg text-label-lg shadow-lg hover:brightness-110 transition-all active:scale-95 flex items-center justify-center gap-2" id="submitBtn">
+    <span>Confirm &amp; Finish</span>
+    <span class="material-symbols-outlined text-[20px]">send</span>
+  </button>
+</div>
+</footer>
+
+<!-- Success Modal -->
+<div class="fixed inset-0 z-[60] bg-on-background/40 backdrop-blur-sm flex items-center justify-center p-container-padding hidden" id="successModal">
+<div class="bg-surface rounded-2xl p-8 max-w-sm w-full shadow-2xl flex flex-col items-center text-center gap-4 transform scale-95 transition-transform duration-300">
+  <div class="w-20 h-20 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center">
+    <span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+  </div>
+  <h2 class="font-headline-md text-headline-md font-bold">Thank You!</h2>
+  <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Your responses have been successfully recorded. You've made a valuable contribution to our academic research study.</p>
+  <button class="w-full py-3 bg-primary text-on-primary rounded-full font-label-lg text-label-lg font-bold hover:brightness-110 transition-all" id="returnBtn">Return to Home</button>
+</div>
+</div>
+
+<script>
+    const statements = [
+        "1. The explanation provided by ChatGPT was easy to understand.",
+        "2. ChatGPT’s responses clearly answered my questions.",
+        "3. The examples given by ChatGPT were helpful for my learning.",
+        "4. ChatGPT provided useful code snippets and samples when needed.",
+        "5. ChatGPT helps me summarize information from lessons or reading materials.",
+        "6. ChatGPT helps me improve my written schoolwork.",
+        "7. ChatGPT helps me save time when completing academic tasks.",
+        "8. ChatGPT helps me explain topics that I do not understand.",
+        "9. ChatGPT provides useful suggestions when I am doing school activities.",
+        "10. ChatGPT helps me feel more confident when completing academic tasks.",
+        "11. I find ChatGPT convenient to use for my academic activities.",
+        "12. I check the information provided by ChatGPT before using it in my schoolwork.",
+        "13. I believe ChatGPT is helpful when used responsibly for learning.",
+        "14. Using ChatGPT appropriately can improve the way I accomplish academic tasks.",
+        "15. Overall, ChatGPT provides meaningful assistance in completing my academic tasks."
+    ];
+
+    const likertLabels = {
+        5: "Strongly Agree",
+        4: "Agree",
+        3: "Neutral",
+        2: "Disagree",
+        1: "Strongly Disagree"
+    };
+
+    function cap(s) {
+        if (!s) return '—';
+        return s.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    const draft = SurveyDB.getDraft();
+    if (!draft) {
+        window.location.href = 'introduction.html';
+    } else {
+        // Part I
+        document.getElementById('r-name').textContent = draft.name || 'Anonymous';
+        document.getElementById('r-age').textContent = draft.age || '—';
+        document.getElementById('r-sex').textContent = cap(draft.sex);
+        document.getElementById('r-strand').textContent = draft.strand || '—';
+        document.getElementById('r-section').textContent = draft.section || '—';
+
+        // Part II: Ratings and Mean
+        const pContainer = document.getElementById('perceptions-container');
+        if (draft.perceptions) {
+            pContainer.innerHTML = '';
+            let totalScore = 0;
+            let answeredCount = 0;
+
+            statements.forEach((stmt, idx) => {
+                const qNum = idx + 1;
+                const score = draft.perceptions[`q${qNum}`] || 0;
+                if (score > 0) {
+                    totalScore += score;
+                    answeredCount++;
+                }
+                const pct = (score / 5) * 100;
+                const labelText = likertLabels[score] || 'Not answered';
+
+                pContainer.innerHTML += `
+                    <div class="p-2.5 rounded-lg bg-surface border border-outline-variant/40 space-y-1">
+                        <div class="flex justify-between items-start text-xs font-medium">
+                            <span class="text-on-surface line-clamp-1 flex-1 pr-2">${stmt}</span>
+                            <span class="font-bold text-primary shrink-0">${score}/5 (${labelText})</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+                            <div class="h-full bg-primary rounded-full" style="width: ${pct}%"></div>
+                        </div>
+                    </div>`;
+            });
+
+            if (answeredCount > 0) {
+                const mean = (totalScore / answeredCount).toFixed(2);
+                document.getElementById('r-mean-score').textContent = `${mean} / 5.0`;
+                let meanDesc = "Neutral";
+                if (mean >= 4.5) meanDesc = "Strongly Agree (Very High Assistance)";
+                else if (mean >= 3.5) meanDesc = "Agree (High Assistance)";
+                else if (mean >= 2.5) meanDesc = "Neutral (Moderate Assistance)";
+                else if (mean >= 1.5) meanDesc = "Disagree (Low Assistance)";
+                else meanDesc = "Strongly Disagree (Very Low Assistance)";
+                document.getElementById('r-mean-label').textContent = `— ${meanDesc}`;
+            }
+        }
+
+        // Part III
+        document.getElementById('r-frequency').textContent = draft.frequency || '—';
+        
+        const usagesDisplay = (draft.usages && draft.usages.length) 
+            ? draft.usages.join(', ') + (draft.otherUsage ? `, Other (${draft.otherUsage})` : '')
+            : (draft.otherUsage ? `Other (${draft.otherUsage})` : '—');
+        document.getElementById('r-usages').textContent = usagesDisplay;
+
+        document.getElementById('r-most-task').textContent = draft.mostUsedTask || '—';
+        document.getElementById('r-time').textContent = draft.timeSpent || '—';
+
+        const allComplete = !!(draft.age && draft.sex && draft.strand && draft.section &&
+                               draft.frequency && draft.timeSpent && draft.perceptions);
+        document.getElementById('badge-text').textContent = allComplete ? 'All sections complete' : 'Ready for submission';
+    }
+
+    const submitBtn = document.getElementById('submitBtn');
+    const successModal = document.getElementById('successModal');
+
+    submitBtn.addEventListener('click', async () => {
+        submitBtn.disabled = true;
+        submitBtn.querySelector('span:first-child').innerText = 'Submitting...';
+        submitBtn.querySelector('.material-symbols-outlined').style.display = 'none';
+
+        const success = await SurveyDB.submitSurvey();
+        if (success === false) {
+            alert("Submission failed. There may be a duplicate name or network error. Please try again.");
+            submitBtn.disabled = false;
+            submitBtn.querySelector('span:first-child').innerText = 'Confirm & Finish';
+            submitBtn.querySelector('.material-symbols-outlined').style.display = 'inline-block';
+            return;
+        }
+
+        successModal.classList.remove('hidden');
+        setTimeout(() => { successModal.querySelector('div').classList.remove('scale-95'); }, 10);
+    });
+
+    document.getElementById('returnBtn').addEventListener('click', () => {
+        SurveyDB.logout();
+        window.location.href = 'index.html';
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') successModal.classList.add('hidden');
+    });
+</script>
+</body>
+</html>
